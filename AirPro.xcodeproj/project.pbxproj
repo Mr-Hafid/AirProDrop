@@ -1,0 +1,492 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		01520BADD4D1691EECAB5EDF /* PeerConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F1F6A0E6D6DB7D02C92733 /* PeerConnection.swift */; };
+		0C7F668B9C4EA04BC8EC6BC5 /* SecureParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4665220A61CA53CC2D167C5B /* SecureParameters.swift */; };
+		22E852B697C36FFE060DDF4C /* OverlayWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86874DCDFC951C10C7669188 /* OverlayWindowController.swift */; };
+		22F4FC62E19591F0F14B3A57 /* EdgeDropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC027FA637134B69794F3EF9 /* EdgeDropView.swift */; };
+		2ADACECCE64A628705477234 /* ThumbnailRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5900DB8B5D71890FDA087530 /* ThumbnailRenderer.swift */; };
+		2D01F8554C44C52CD8271C18 /* SnapshottableContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7846A78347C96142E7D89E86 /* SnapshottableContainer.swift */; };
+		315A39AEF96A367AF2F814D0 /* MacMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3D1450CD1C5C4DD928D59E /* MacMenuView.swift */; };
+		339CED85C9A71588C5F255AE /* PairingStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44E752A380010A1F342B281 /* PairingStore.swift */; };
+		392E0D5F62A35E6AE79A9D40 /* PhoneCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BA41DA69BCF2AF3ADD912E2 /* PhoneCoordinator.swift */; };
+		39C0E9A5B5222B2D4552DB6B /* ThumbnailRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5900DB8B5D71890FDA087530 /* ThumbnailRenderer.swift */; };
+		39E7F232C67992C77E26D665 /* PeerConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F1F6A0E6D6DB7D02C92733 /* PeerConnection.swift */; };
+		4B34ABA7883F7AB5EB025FCD /* FlyingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650995AD7C75F747E95D879D /* FlyingCard.swift */; };
+		561201CD36E19ABB755A1D8F /* AirDropGlow.metal in Sources */ = {isa = PBXBuildFile; fileRef = A3D7B71A4741AFA3E3418119 /* AirDropGlow.metal */; };
+		67463518877B45413405D907 /* TransferStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BE32371967EA937F6B74DE4 /* TransferStage.swift */; };
+		7078291A4BEF54AFA2072A62 /* AirProService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 202ED81C82E428C33DFD30E8 /* AirProService.swift */; };
+		71E36EE2F602A70C32AE8C36 /* ControlMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 445311A6488A0D2F83F5138B /* ControlMessage.swift */; };
+		80EB5495D73DCB66FE0E38DD /* PairingPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B67FBC1681AB74AAA27F99 /* PairingPanel.swift */; };
+		8EE1E540A475229A36967587 /* EdgeGlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E703071C99F73280C7FFE27 /* EdgeGlow.swift */; };
+		92E69C803170FF0134A2CF96 /* SecureParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4665220A61CA53CC2D167C5B /* SecureParameters.swift */; };
+		94A63EE7DA4AA4855F19837B /* EdgeGlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E703071C99F73280C7FFE27 /* EdgeGlow.swift */; };
+		957010048D70BD7AD74AA8D0 /* FileLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCF49B033DDDE6A11D8BA8F /* FileLibrary.swift */; };
+		B1A535D082AD19608EE64F8E /* TransferStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BE32371967EA937F6B74DE4 /* TransferStage.swift */; };
+		B6B0CC9AC955305661F3894F /* FlyingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650995AD7C75F747E95D879D /* FlyingCard.swift */; };
+		B92F948E6D8C32074C185598 /* AirProService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 202ED81C82E428C33DFD30E8 /* AirProService.swift */; };
+		BFD00FF7838AC63B16CEB88A /* PairingStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44E752A380010A1F342B281 /* PairingStore.swift */; };
+		CA8711E189E75148913168E5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41831803269E21EBA2B6EBA4 /* ContentView.swift */; };
+		CAE092D8E3D424B0A900F344 /* AirDropGlow.metal in Sources */ = {isa = PBXBuildFile; fileRef = A3D7B71A4741AFA3E3418119 /* AirDropGlow.metal */; };
+		DD2238DD96474F34F93D7487 /* AirProPhoneApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284DB6B6FC66663CA30C8DC2 /* AirProPhoneApp.swift */; };
+		EA4F0792E72E143A13C0B1B2 /* ControlMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 445311A6488A0D2F83F5138B /* ControlMessage.swift */; };
+		F74C9FA8D96A81E94D6785B6 /* MacCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B201C01D5FE85BF47C820699 /* MacCoordinator.swift */; };
+		F8C79E95DA2D9E3008E00158 /* AirProMacApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E209CD90D97608965B6A4F96 /* AirProMacApp.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1BE32371967EA937F6B74DE4 /* TransferStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferStage.swift; sourceTree = "<group>"; };
+		202ED81C82E428C33DFD30E8 /* AirProService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirProService.swift; sourceTree = "<group>"; };
+		284DB6B6FC66663CA30C8DC2 /* AirProPhoneApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirProPhoneApp.swift; sourceTree = "<group>"; };
+		41831803269E21EBA2B6EBA4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		445311A6488A0D2F83F5138B /* ControlMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlMessage.swift; sourceTree = "<group>"; };
+		4665220A61CA53CC2D167C5B /* SecureParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureParameters.swift; sourceTree = "<group>"; };
+		4BA41DA69BCF2AF3ADD912E2 /* PhoneCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCoordinator.swift; sourceTree = "<group>"; };
+		5900DB8B5D71890FDA087530 /* ThumbnailRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailRenderer.swift; sourceTree = "<group>"; };
+		5CDB0843ADF21EEF31F37F6E /* AirProPhone.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = AirProPhone.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6102DDEE1D52B6A4BE1E178D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		650995AD7C75F747E95D879D /* FlyingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyingCard.swift; sourceTree = "<group>"; };
+		6A3D1450CD1C5C4DD928D59E /* MacMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacMenuView.swift; sourceTree = "<group>"; };
+		6E703071C99F73280C7FFE27 /* EdgeGlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdgeGlow.swift; sourceTree = "<group>"; };
+		7846A78347C96142E7D89E86 /* SnapshottableContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshottableContainer.swift; sourceTree = "<group>"; };
+		85B67FBC1681AB74AAA27F99 /* PairingPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairingPanel.swift; sourceTree = "<group>"; };
+		86874DCDFC951C10C7669188 /* OverlayWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayWindowController.swift; sourceTree = "<group>"; };
+		99B2EB9BD35A5F190D1EE2EF /* AirProMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AirProMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A3D7B71A4741AFA3E3418119 /* AirDropGlow.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = AirDropGlow.metal; sourceTree = "<group>"; };
+		B201C01D5FE85BF47C820699 /* MacCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacCoordinator.swift; sourceTree = "<group>"; };
+		B44E752A380010A1F342B281 /* PairingStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairingStore.swift; sourceTree = "<group>"; };
+		DC30F65D70BD59AF395D9655 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		E209CD90D97608965B6A4F96 /* AirProMacApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirProMacApp.swift; sourceTree = "<group>"; };
+		E8F1F6A0E6D6DB7D02C92733 /* PeerConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerConnection.swift; sourceTree = "<group>"; };
+		EFCF49B033DDDE6A11D8BA8F /* FileLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileLibrary.swift; sourceTree = "<group>"; };
+		FC027FA637134B69794F3EF9 /* EdgeDropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdgeDropView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		26657B828147CA58D0425B9C /* Phone */ = {
+			isa = PBXGroup;
+			children = (
+				284DB6B6FC66663CA30C8DC2 /* AirProPhoneApp.swift */,
+				41831803269E21EBA2B6EBA4 /* ContentView.swift */,
+				EFCF49B033DDDE6A11D8BA8F /* FileLibrary.swift */,
+				6102DDEE1D52B6A4BE1E178D /* Info.plist */,
+				85B67FBC1681AB74AAA27F99 /* PairingPanel.swift */,
+				4BA41DA69BCF2AF3ADD912E2 /* PhoneCoordinator.swift */,
+				7846A78347C96142E7D89E86 /* SnapshottableContainer.swift */,
+			);
+			path = Phone;
+			sourceTree = "<group>";
+		};
+		82B8EF20FE6BBDFCD1EDE707 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				A3D7B71A4741AFA3E3418119 /* AirDropGlow.metal */,
+				202ED81C82E428C33DFD30E8 /* AirProService.swift */,
+				445311A6488A0D2F83F5138B /* ControlMessage.swift */,
+				6E703071C99F73280C7FFE27 /* EdgeGlow.swift */,
+				650995AD7C75F747E95D879D /* FlyingCard.swift */,
+				B44E752A380010A1F342B281 /* PairingStore.swift */,
+				E8F1F6A0E6D6DB7D02C92733 /* PeerConnection.swift */,
+				4665220A61CA53CC2D167C5B /* SecureParameters.swift */,
+				5900DB8B5D71890FDA087530 /* ThumbnailRenderer.swift */,
+				1BE32371967EA937F6B74DE4 /* TransferStage.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		9A69CC716D67162C827C8E04 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				99B2EB9BD35A5F190D1EE2EF /* AirProMac.app */,
+				5CDB0843ADF21EEF31F37F6E /* AirProPhone.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BDB97E48C7FCB246ED281A46 = {
+			isa = PBXGroup;
+			children = (
+				EE86D2B60E7CA9A6242CD915 /* Mac */,
+				26657B828147CA58D0425B9C /* Phone */,
+				82B8EF20FE6BBDFCD1EDE707 /* Shared */,
+				9A69CC716D67162C827C8E04 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		EE86D2B60E7CA9A6242CD915 /* Mac */ = {
+			isa = PBXGroup;
+			children = (
+				E209CD90D97608965B6A4F96 /* AirProMacApp.swift */,
+				FC027FA637134B69794F3EF9 /* EdgeDropView.swift */,
+				DC30F65D70BD59AF395D9655 /* Info.plist */,
+				B201C01D5FE85BF47C820699 /* MacCoordinator.swift */,
+				6A3D1450CD1C5C4DD928D59E /* MacMenuView.swift */,
+				86874DCDFC951C10C7669188 /* OverlayWindowController.swift */,
+			);
+			path = Mac;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0AF1D31564CF5CFE49205667 /* AirProPhone */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F989671B950988B1AF1708BD /* Build configuration list for PBXNativeTarget "AirProPhone" */;
+			buildPhases = (
+				859F8E8D1F74F12085C7729B /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AirProPhone;
+			packageProductDependencies = (
+			);
+			productName = AirProPhone;
+			productReference = 5CDB0843ADF21EEF31F37F6E /* AirProPhone.app */;
+			productType = "com.apple.product-type.application";
+		};
+		877A079019B1EE99C195B733 /* AirProMac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3BCE4349101DA000814258F3 /* Build configuration list for PBXNativeTarget "AirProMac" */;
+			buildPhases = (
+				94D863115DAB6538A4376787 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AirProMac;
+			packageProductDependencies = (
+			);
+			productName = AirProMac;
+			productReference = 99B2EB9BD35A5F190D1EE2EF /* AirProMac.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DAFCCA155EF6C96B45C52965 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					0AF1D31564CF5CFE49205667 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+					877A079019B1EE99C195B733 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 395EE96CD0B7C5B9B9DC00F1 /* Build configuration list for PBXProject "AirPro" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = BDB97E48C7FCB246ED281A46;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 9A69CC716D67162C827C8E04 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				877A079019B1EE99C195B733 /* AirProMac */,
+				0AF1D31564CF5CFE49205667 /* AirProPhone */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		859F8E8D1F74F12085C7729B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CAE092D8E3D424B0A900F344 /* AirDropGlow.metal in Sources */,
+				DD2238DD96474F34F93D7487 /* AirProPhoneApp.swift in Sources */,
+				B92F948E6D8C32074C185598 /* AirProService.swift in Sources */,
+				CA8711E189E75148913168E5 /* ContentView.swift in Sources */,
+				EA4F0792E72E143A13C0B1B2 /* ControlMessage.swift in Sources */,
+				8EE1E540A475229A36967587 /* EdgeGlow.swift in Sources */,
+				957010048D70BD7AD74AA8D0 /* FileLibrary.swift in Sources */,
+				4B34ABA7883F7AB5EB025FCD /* FlyingCard.swift in Sources */,
+				80EB5495D73DCB66FE0E38DD /* PairingPanel.swift in Sources */,
+				BFD00FF7838AC63B16CEB88A /* PairingStore.swift in Sources */,
+				39E7F232C67992C77E26D665 /* PeerConnection.swift in Sources */,
+				392E0D5F62A35E6AE79A9D40 /* PhoneCoordinator.swift in Sources */,
+				0C7F668B9C4EA04BC8EC6BC5 /* SecureParameters.swift in Sources */,
+				2D01F8554C44C52CD8271C18 /* SnapshottableContainer.swift in Sources */,
+				2ADACECCE64A628705477234 /* ThumbnailRenderer.swift in Sources */,
+				B1A535D082AD19608EE64F8E /* TransferStage.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94D863115DAB6538A4376787 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				561201CD36E19ABB755A1D8F /* AirDropGlow.metal in Sources */,
+				F8C79E95DA2D9E3008E00158 /* AirProMacApp.swift in Sources */,
+				7078291A4BEF54AFA2072A62 /* AirProService.swift in Sources */,
+				71E36EE2F602A70C32AE8C36 /* ControlMessage.swift in Sources */,
+				22F4FC62E19591F0F14B3A57 /* EdgeDropView.swift in Sources */,
+				94A63EE7DA4AA4855F19837B /* EdgeGlow.swift in Sources */,
+				B6B0CC9AC955305661F3894F /* FlyingCard.swift in Sources */,
+				F74C9FA8D96A81E94D6785B6 /* MacCoordinator.swift in Sources */,
+				315A39AEF96A367AF2F814D0 /* MacMenuView.swift in Sources */,
+				22E852B697C36FFE060DDF4C /* OverlayWindowController.swift in Sources */,
+				339CED85C9A71588C5F255AE /* PairingStore.swift in Sources */,
+				01520BADD4D1691EECAB5EDF /* PeerConnection.swift in Sources */,
+				92E69C803170FF0134A2CF96 /* SecureParameters.swift in Sources */,
+				39C0E9A5B5222B2D4552DB6B /* ThumbnailRenderer.swift in Sources */,
+				67463518877B45413405D907 /* TransferStage.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		0B1DC0CA335BA67FB7FAA71D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		6B4127F6A699F5175F84615C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
+				INFOPLIST_FILE = Mac/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mobileprintsoft.airpro.mac;
+				PRODUCT_NAME = AirPro;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		7C6A3459721D8796EA6913F9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		D6CCC8E79919A4E44962CBB8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = Phone/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mobileprintsoft.airpro.phone;
+				PRODUCT_NAME = AirPro;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		E32E086AD1B66CA51845CC4E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = Phone/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mobileprintsoft.airpro.phone;
+				PRODUCT_NAME = AirPro;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		E4A6A9961878190FC008918C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
+				INFOPLIST_FILE = Mac/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mobileprintsoft.airpro.mac;
+				PRODUCT_NAME = AirPro;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		395EE96CD0B7C5B9B9DC00F1 /* Build configuration list for PBXProject "AirPro" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0B1DC0CA335BA67FB7FAA71D /* Debug */,
+				7C6A3459721D8796EA6913F9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		3BCE4349101DA000814258F3 /* Build configuration list for PBXNativeTarget "AirProMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6B4127F6A699F5175F84615C /* Debug */,
+				E4A6A9961878190FC008918C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F989671B950988B1AF1708BD /* Build configuration list for PBXNativeTarget "AirProPhone" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E32E086AD1B66CA51845CC4E /* Debug */,
+				D6CCC8E79919A4E44962CBB8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DAFCCA155EF6C96B45C52965 /* Project object */;
+}
