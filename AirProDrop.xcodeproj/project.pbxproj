@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		05BE87F15FF6CC8E8CF2F61D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF5121DB2A9BA790A17F7A3F /* Assets.xcassets */; };
 		16A2C07F6F9498E0F66DA2EB /* EdgeDropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101E778D2033C93755B71067 /* EdgeDropView.swift */; };
 		1AB40F466BAE67F03C957D70 /* ThumbnailRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B022DC604B7361022B372572 /* ThumbnailRenderer.swift */; };
 		355FCD0EE90D9882CA36A50E /* SecureHandshake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842B139DA8B3AD35C9F3D89F /* SecureHandshake.swift */; };
@@ -23,6 +24,7 @@
 		69103E701E81FD67F1B36FF4 /* SessionCipher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25ADBBD9C7BE4314B32B18D0 /* SessionCipher.swift */; };
 		695196A8582D130295604A95 /* AirProService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B042026E0AE59E73AEDFF0BB /* AirProService.swift */; };
 		75D8E3CC076C2FA938177ECD /* TransportParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69382FF4CF70FD56B69B04ED /* TransportParameters.swift */; };
+		774FC2D2B7ADFBBAE005E6BA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 42A56F683441F80CF71190C5 /* Assets.xcassets */; };
 		7FFC68AFA98C0B3446385B04 /* TransferStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B70772D0FE89EF21A3810C /* TransferStage.swift */; };
 		838E4EC6097A5EE527B2B2D7 /* FlyingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81EAA8FC798FA21D5A215079 /* FlyingCard.swift */; };
 		8B2B9B448CC1F216CCDFBB99 /* SecureStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77CBCEF0381F963696633220 /* SecureStore.swift */; };
@@ -56,6 +58,7 @@
 		14230D899DA9055F1283364C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		223CAB4D9525508FFD9564EC /* PhoneCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCoordinator.swift; sourceTree = "<group>"; };
 		25ADBBD9C7BE4314B32B18D0 /* SessionCipher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCipher.swift; sourceTree = "<group>"; };
+		42A56F683441F80CF71190C5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		498C55D7ECA77FBDD93ACD45 /* ControlMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlMessage.swift; sourceTree = "<group>"; };
 		5BEA4863D733C2C104552A29 /* TrustStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrustStore.swift; sourceTree = "<group>"; };
 		5C652228F66FE5F21BD6308A /* FileLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileLibrary.swift; sourceTree = "<group>"; };
@@ -78,6 +81,7 @@
 		B022DC604B7361022B372572 /* ThumbnailRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailRenderer.swift; sourceTree = "<group>"; };
 		B042026E0AE59E73AEDFF0BB /* AirProService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirProService.swift; sourceTree = "<group>"; };
 		C13A7BDACE02A92EA1DFF3DF /* EdgeGlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdgeGlow.swift; sourceTree = "<group>"; };
+		CF5121DB2A9BA790A17F7A3F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D3E8A29190FCBC8CAF4EB469 /* MacMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacMenuView.swift; sourceTree = "<group>"; };
 		DAF86AA3D61ABDB5752BA4B3 /* AirProMacApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirProMacApp.swift; sourceTree = "<group>"; };
 		EF7CB94391E66B4D4E849C61 /* PeerConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerConnection.swift; sourceTree = "<group>"; };
@@ -89,6 +93,7 @@
 			isa = PBXGroup;
 			children = (
 				DAF86AA3D61ABDB5752BA4B3 /* AirProMacApp.swift */,
+				CF5121DB2A9BA790A17F7A3F /* Assets.xcassets */,
 				101E778D2033C93755B71067 /* EdgeDropView.swift */,
 				9BFC8AF67276E8B42CA636A5 /* Info.plist */,
 				75AAAAC13E7F6D0768270D49 /* MacCoordinator.swift */,
@@ -144,6 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				99D82DB8FD0CFA28709C16D2 /* AirProPhoneApp.swift */,
+				42A56F683441F80CF71190C5 /* Assets.xcassets */,
 				FA3D27F76350D927F854E578 /* ContentView.swift */,
 				5C652228F66FE5F21BD6308A /* FileLibrary.swift */,
 				14230D899DA9055F1283364C /* Info.plist */,
@@ -162,6 +168,7 @@
 			buildConfigurationList = 86B760BE0C02A471B64BBF40 /* Build configuration list for PBXNativeTarget "AirProDropMac" */;
 			buildPhases = (
 				3E35CFC4A7F7EE16A1A66EE0 /* Sources */,
+				3BAC6B8BE4DDAF5A4581B707 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -179,6 +186,7 @@
 			buildConfigurationList = 59D91B252E136C2F714A70D4 /* Build configuration list for PBXNativeTarget "AirProDropPhone" */;
 			buildPhases = (
 				A7C6C73A1DA6AA4560B1EC58 /* Sources */,
+				6311C8786B9375C6D0D3AAF4 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -229,6 +237,25 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3BAC6B8BE4DDAF5A4581B707 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				05BE87F15FF6CC8E8CF2F61D /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6311C8786B9375C6D0D3AAF4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				774FC2D2B7ADFBBAE005E6BA /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3E35CFC4A7F7EE16A1A66EE0 /* Sources */ = {
