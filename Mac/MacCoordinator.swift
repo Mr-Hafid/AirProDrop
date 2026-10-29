@@ -18,6 +18,7 @@ final class MacCoordinator {
 
     @ObservationIgnored private static let phoneSideDefaultsKey = "airpro.phoneSide"
     @ObservationIgnored private let pairingStore = PairingStore()
+    @ObservationIgnored private let receivedFileNotifier = ReceivedFileNotifier()
     @ObservationIgnored private var listener: NWListener?
     @ObservationIgnored private var connection: PeerConnection?
     @ObservationIgnored private var handshakingConnections: [ObjectIdentifier: PeerConnection] = [:]
@@ -26,7 +27,7 @@ final class MacCoordinator {
     @ObservationIgnored private var lastSentHover: (intensity: Double, verticalPosition: Double) = (0, 0.5)
 
     var receivedFolder: URL {
-        FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask)[0].appendingPathComponent("AirPro Drop", isDirectory: true)
+        FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask)[0]
     }
 
     private var macName: String {
@@ -49,6 +50,7 @@ final class MacCoordinator {
             self?.send(urls, from: screenPoint)
         }
         self.overlay = overlay
+        receivedFileNotifier.start()
         startListening()
     }
 
@@ -158,9 +160,9 @@ final class MacCoordinator {
             guard let announcement = pendingIncoming[transferID], announcement.byteCount > 0 else { return }
             stage.updateProgress(id: transferID, progress: Double(totalBytes) / Double(announcement.byteCount))
         case .fileReceived(let transferID, let temporaryURL):
-            let fileName = pendingIncoming.removeValue(forKey: transferID)?.fileName ?? "File"
+            let announcement = pendingIncoming.removeValue(forKey: transferID)
             stage.finishIncoming(id: transferID)
-            storeReceivedFile(at: temporaryURL, named: fileName)
+            storeReceivedFile(at: temporaryURL, named: announcement?.fileName ?? "File", thumbnailData: announcement?.thumbnailData)
         }
     }
 
@@ -210,7 +212,7 @@ final class MacCoordinator {
         }
     }
 
-    private func storeReceivedFile(at temporaryURL: URL, named fileName: String) {
+    private func storeReceivedFile(at temporaryURL: URL, named fileName: String, thumbnailData: Data?) {
         let fileManager = FileManager.default
         try? fileManager.createDirectory(at: receivedFolder, withIntermediateDirectories: true)
         let destination = fileManager.uniqueDestination(forFileNamed: fileName, in: receivedFolder)
@@ -220,6 +222,8 @@ final class MacCoordinator {
             try? fileManager.removeItem(at: temporaryURL)
             return
         }
+        receivedFileNotifier.notifyReceived(fileAt: destination, from: connectedPhoneName ?? "iPhone", thumbnailData: thumbnailData)
+        guard ReceivedFileNotifier.isMedia(destination) else { return }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
             NSWorkspace.shared.open(destination)
         }

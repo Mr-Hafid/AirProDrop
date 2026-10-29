@@ -18,7 +18,7 @@ Tidak perlu WiFi yang sama. Seperti AirDrop, AirPro Drop tersambung langsung ant
 - **Pairing sekali saja:** masukkan kode 6 digit satu kali. Setelah itu kedua perangkat saling menemukan dan tersambung otomatis, tanpa langkah "connect".
 - **Terenkripsi:** setiap koneksi memakai TLS dengan kunci rahasia yang dibuat saat pairing.
 - **File yang diterima:**
-  - Mac: disimpan di `~/Downloads/AirPro Drop` dan langsung dibuka.
+  - Mac: disimpan langsung ke `~/Downloads` seperti AirDrop, lalu otomatis dibuka.
   - iPhone: tampil di grid file di dalam app, bisa dipreview dengan Quick Look, dibagikan, atau dihapus.
 
 ## Kebutuhan

@@ -18,7 +18,7 @@ No shared Wi-Fi network is needed. Like AirDrop, AirPro Drop talks directly betw
 - **One-time pairing** — enter a 6-digit code once; after that the devices find and connect to each other automatically, with no visible "connect" step.
 - **Encrypted** — every connection uses TLS with a pre-shared key created during pairing.
 - **Received files**
-  - Mac: saved to `~/Downloads/AirPro Drop` and opened automatically.
+  - Mac: saved straight to `~/Downloads`, like AirDrop, and opened automatically.
   - iPhone: kept in the app's file grid, with Quick Look preview, Share and Delete.
 
 ## Requirements

@@ -26,6 +26,7 @@
 		9D7C773DA9B1D5109226A12C /* PeerConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7CB94391E66B4D4E849C61 /* PeerConnection.swift */; };
 		9FB4485FFFDF30BA35BAC274 /* FileLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C652228F66FE5F21BD6308A /* FileLibrary.swift */; };
 		A5B8B0B5CF646D578F90A46A /* TransferStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B70772D0FE89EF21A3810C /* TransferStage.swift */; };
+		A9DBC65AE79018A2CD4EE7A0 /* ReceivedFileNotifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECAD66E85777D73252A15A4 /* ReceivedFileNotifier.swift */; };
 		B75043371161FF4F0F62927F /* ThumbnailRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B022DC604B7361022B372572 /* ThumbnailRenderer.swift */; };
 		B97D3CCF22BBA0681E026429 /* EdgeGlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13A7BDACE02A92EA1DFF3DF /* EdgeGlow.swift */; };
 		BBB1B3C0DF4C4369BA04A177 /* AirProPhoneApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D82DB8FD0CFA28709C16D2 /* AirProPhoneApp.swift */; };
@@ -41,6 +42,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0ECAD66E85777D73252A15A4 /* ReceivedFileNotifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivedFileNotifier.swift; sourceTree = "<group>"; };
 		101E778D2033C93755B71067 /* EdgeDropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdgeDropView.swift; sourceTree = "<group>"; };
 		14230D899DA9055F1283364C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		21DDF3ECF2EC6631EFC975BB /* SecureParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureParameters.swift; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 				75AAAAC13E7F6D0768270D49 /* MacCoordinator.swift */,
 				D3E8A29190FCBC8CAF4EB469 /* MacMenuView.swift */,
 				8BCBB85868BE0969521CD8F8 /* OverlayWindowController.swift */,
+				0ECAD66E85777D73252A15A4 /* ReceivedFileNotifier.swift */,
 			);
 			path = Mac;
 			sourceTree = "<group>";
@@ -225,6 +228,7 @@
 				DE86E3B94C029F4D09286DD3 /* OverlayWindowController.swift in Sources */,
 				5886D3E769DD53BB6F5595AF /* PairingStore.swift in Sources */,
 				9D7C773DA9B1D5109226A12C /* PeerConnection.swift in Sources */,
+				A9DBC65AE79018A2CD4EE7A0 /* ReceivedFileNotifier.swift in Sources */,
 				5F8A73A317577BF659C574DF /* SecureParameters.swift in Sources */,
 				1AB40F466BAE67F03C957D70 /* ThumbnailRenderer.swift in Sources */,
 				7FFC68AFA98C0B3446385B04 /* TransferStage.swift in Sources */,
