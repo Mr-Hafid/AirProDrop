@@ -3,6 +3,7 @@ import Network
 
 enum PeerEvent {
     case ready(PeerInfo)
+    case pairingCodeDisplayed(requesterName: String)
     case closed(PeerFailure?)
     case message(ControlMessage)
     case bytesReceived(transferID: UUID, totalBytes: Int64)
@@ -206,6 +207,9 @@ final class PeerConnection {
                 messages.forEach(sendHandshake)
                 cipher = sessionCipher
                 emit(.ready(peer))
+            case .pairingCodeDisplayed(let requesterName, let messages):
+                emit(.pairingCodeDisplayed(requesterName: requesterName))
+                closeAfterSending(messages)
             }
         } catch {
             let failure = error as? PeerFailure ?? .protocolViolation
@@ -216,6 +220,17 @@ final class PeerConnection {
             sendHandshake(.rejected(failure)) { [weak self] in
                 self?.queue.async { self?.terminate(with: failure) }
             }
+        }
+    }
+
+    private func closeAfterSending(_ messages: [HandshakeMessage]) {
+        guard let finalMessage = messages.last else {
+            terminate(with: nil)
+            return
+        }
+        messages.dropLast().forEach(sendHandshake)
+        sendHandshake(finalMessage) { [weak self] in
+            self?.queue.async { self?.terminate(with: nil) }
         }
     }
 

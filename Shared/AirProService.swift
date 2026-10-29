@@ -11,6 +11,8 @@ enum AirProService {
     static let handshakeTimeout: TimeInterval = 10
     static let pairingWindowDuration: TimeInterval = 120
     static let maximumFailedPairingAttempts = 3
+    static let pairingRequestCooldown: TimeInterval = 30
+    static let maximumRequesterNameLength = 64
 
     static func makePairingCode() -> String {
         String(format: "%06d", Int.random(in: 0...999_999))

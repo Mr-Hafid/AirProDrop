@@ -34,18 +34,22 @@ enum HandshakeMessage: Codable {
     case commitment(Data)
     case reveal(Data)
     case pairConfirm(signature: Data)
+    case codeRequest(deviceName: String)
+    case codeDisplayed
     case rejected(PeerFailure)
 }
 
 enum HandshakeRole {
     case resume(expectedIdentityKey: Data)
     case pair(passkey: Int)
-    case respond(trustedIdentityKeys: Set<Data>, passkey: Int?)
+    case requestCode
+    case respond(trustedIdentityKeys: Set<Data>, passkey: Int?, acceptsCodeRequests: Bool)
 }
 
 enum HandshakeStep {
     case send([HandshakeMessage])
     case established(SessionCipher, PeerInfo, send: [HandshakeMessage])
+    case pairingCodeDisplayed(requesterName: String, send: [HandshakeMessage])
 }
 
 final class SecureHandshake {
@@ -59,6 +63,7 @@ final class SecureHandshake {
         case awaitingCommitment
         case awaitingReveal
         case awaitingPairConfirm
+        case awaitingCodeDisplayed
         case finished
     }
 
@@ -106,6 +111,9 @@ final class SecureHandshake {
             self.passkey = passkey
             stage = .awaitingPairAccept
             return [.pairHello(local)]
+        case .requestCode:
+            stage = .awaitingCodeDisplayed
+            return [.codeRequest(deviceName: local.deviceName)]
         case .respond:
             stage = .idle
             return []
@@ -118,7 +126,7 @@ final class SecureHandshake {
         }
         switch (stage, message) {
         case (.idle, .resumeHello(let introduction, let nonce)):
-            guard case .respond(let trustedIdentityKeys, _) = role, trustedIdentityKeys.contains(introduction.identityKey) else {
+            guard case .respond(let trustedIdentityKeys, _, _) = role, trustedIdentityKeys.contains(introduction.identityKey) else {
                 throw PeerFailure.untrusted
             }
             remote = introduction
@@ -145,11 +153,20 @@ final class SecureHandshake {
             return try establish(transcript: transcript, didPair: false, send: [])
 
         case (.idle, .pairHello(let introduction)):
-            guard case .respond(_, let passkey?) = role else { throw PeerFailure.notAcceptingPairing }
+            guard case .respond(_, let passkey?, _) = role else { throw PeerFailure.notAcceptingPairing }
             self.passkey = passkey
             remote = introduction
             stage = .awaitingCommitment
             return .send([.pairAccept(local)])
+
+        case (.idle, .codeRequest(let deviceName)):
+            guard case .respond(_, _, true) = role else { throw PeerFailure.notAcceptingPairing }
+            stage = .finished
+            return .pairingCodeDisplayed(requesterName: deviceName, send: [.codeDisplayed])
+
+        case (.awaitingCodeDisplayed, .codeDisplayed):
+            stage = .finished
+            return .pairingCodeDisplayed(requesterName: local.deviceName, send: [])
 
         case (.awaitingPairAccept, .pairAccept(let introduction)):
             remote = introduction

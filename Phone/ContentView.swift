@@ -49,22 +49,26 @@ struct ContentView: View {
 
             FlyingCardLayer(cards: coordinator.stage.cards)
 
-            if coordinator.linkState == .needsPairing || coordinator.isPairingInProgress {
+            if coordinator.showsPairingScreen {
                 VStack {
                     Spacer()
                     PairingPanel(
                         candidates: coordinator.pairingCandidates,
-                        isInProgress: coordinator.isPairingInProgress,
+                        step: coordinator.pairingStep,
                         errorMessage: coordinator.pairingErrorMessage,
-                        onSubmit: coordinator.submitPairingCode
+                        onSelectMac: coordinator.requestPairingCode(from:),
+                        onSubmitCode: coordinator.submitPairingCode,
+                        onCancel: coordinator.cancelPairing,
+                        onClose: coordinator.closePairingScreen
                     )
                     .padding(.bottom, 40)
                 }
-                .transition(.move(edge: .bottom).combined(with: .opacity))
+                .transition(.liquidPanel)
             }
         }
         .ignoresSafeArea(.container)
         .animation(.spring(response: 0.4, dampingFraction: 0.85), value: coordinator.linkState)
+        .animation(.spring(response: 0.55, dampingFraction: 0.72), value: coordinator.showsPairingScreen)
         .onChange(of: coordinator.stage.waveStartDate) { _, waveStartDate in
             guard let waveStartDate else { return }
             rippleSnapshot = snapshotter.capture()
@@ -113,6 +117,16 @@ struct ContentView: View {
                 Label("No files yet", systemImage: "square.and.arrow.down.on.square")
             } description: {
                 Text("Drag a file to the edge of your Mac's screen, or add photos with the button above. Touch and hold a file, then flick it toward your Mac to send it.")
+            } actions: {
+                Button {
+                    coordinator.showNearbyMacs()
+                } label: {
+                    Label("Nearby Macs", systemImage: "dot.radiowaves.left.and.right")
+                }
+                .buttonStyle(.borderedProminent)
+                .buttonBorderShape(.capsule)
+                .opacity(coordinator.showsPairingScreen ? 0 : 1)
+                .animation(.easeInOut(duration: 0.25), value: coordinator.showsPairingScreen)
             }
         } else {
             ScrollView {

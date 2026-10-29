@@ -6,6 +6,7 @@ import Observation
 final class MacCoordinator {
     var pairingCode: String?
     var pairingExpiresAt: Date?
+    var pairingRequesterName: String?
     var connectedPhoneName: String?
     var trustedDevices: [TrustedDevice] = []
     var phoneSide: ScreenSide {
@@ -23,6 +24,8 @@ final class MacCoordinator {
     @ObservationIgnored private var connectedPhoneIdentityKey: Data?
     @ObservationIgnored private var failedPairingAttempts = 0
     @ObservationIgnored private var pairingWindowCloser: DispatchWorkItem?
+    @ObservationIgnored private var pairingRequestsBlockedUntil = Date.distantPast
+    @ObservationIgnored private var pairingCodePanel: PairingCodePanelController?
     @ObservationIgnored private let receivedFileNotifier = ReceivedFileNotifier()
     @ObservationIgnored private var listener: NWListener?
     @ObservationIgnored private var connection: PeerConnection?
@@ -33,6 +36,11 @@ final class MacCoordinator {
 
     var receivedFolder: URL {
         FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask)[0]
+    }
+
+    var formattedPairingCode: String? {
+        guard let code = pairingCode, code.count == 6 else { return pairingCode }
+        return "\(code.prefix(3)) \(code.suffix(3))"
     }
 
     private var macName: String {
@@ -55,6 +63,7 @@ final class MacCoordinator {
             self?.send(urls, from: screenPoint)
         }
         self.overlay = overlay
+        pairingCodePanel = PairingCodePanelController(coordinator: self)
         receivedFileNotifier.start()
         if trustedDevices.isEmpty {
             openPairingWindow()
@@ -79,6 +88,8 @@ final class MacCoordinator {
         pairingWindowCloser = nil
         pairingCode = nil
         pairingExpiresAt = nil
+        pairingRequesterName = nil
+        pairingCodePanel?.hide()
         startListening()
     }
 
@@ -133,7 +144,11 @@ final class MacCoordinator {
     }
 
     private func accept(_ newConnection: NWConnection) {
-        let role = HandshakeRole.respond(trustedIdentityKeys: trustStore.identityKeys, passkey: pairingCode.flatMap(Int.init))
+        let role = HandshakeRole.respond(
+            trustedIdentityKeys: trustStore.identityKeys,
+            passkey: pairingCode.flatMap(Int.init),
+            acceptsCodeRequests: Date() >= pairingRequestsBlockedUntil
+        )
         let handshake = SecureHandshake(role: role, identity: identity, deviceID: LocalDevice.identifier, deviceName: macName)
         let peer = PeerConnection(connection: newConnection, handshake: handshake)
         handshakingConnections[ObjectIdentifier(peer)] = peer
@@ -151,6 +166,8 @@ final class MacCoordinator {
             case .ready(let info):
                 handshakingConnections[peerID] = nil
                 promote(peer, info: info)
+            case .pairingCodeDisplayed(let requesterName):
+                presentPairingCode(to: requesterName)
             case .closed(let failure):
                 handshakingConnections[peerID] = nil
                 if failure == .passkeyMismatch {
@@ -164,7 +181,7 @@ final class MacCoordinator {
         guard peer === connection else { return }
 
         switch event {
-        case .ready:
+        case .ready, .pairingCodeDisplayed:
             break
         case .closed:
             connection = nil
@@ -198,10 +215,19 @@ final class MacCoordinator {
         connectedPhoneIdentityKey = info.identityKey
     }
 
+    private func presentPairingCode(to requesterName: String) {
+        if pairingCode == nil {
+            openPairingWindow()
+        }
+        pairingRequesterName = String(requesterName.prefix(AirProService.maximumRequesterNameLength))
+        pairingCodePanel?.show()
+    }
+
     private func registerFailedPairingAttempt() {
         guard pairingCode != nil else { return }
         failedPairingAttempts += 1
         if failedPairingAttempts >= AirProService.maximumFailedPairingAttempts {
+            pairingRequestsBlockedUntil = Date().addingTimeInterval(AirProService.pairingRequestCooldown)
             closePairingWindow()
         } else {
             pairingCode = AirProService.makePairingCode()

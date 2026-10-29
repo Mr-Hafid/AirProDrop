@@ -19,12 +19,27 @@ final class PhoneCoordinator {
         case connected
     }
 
+    enum PairingStep: Equatable {
+        case choosingMac
+        case requestingCode(DiscoveredMac)
+        case enteringCode(DiscoveredMac)
+        case verifyingCode(DiscoveredMac)
+    }
+
+    private enum ConnectionPurpose {
+        case resume
+        case requestCode
+        case pair
+    }
+
     var linkState: LinkState = .searching
     var connectedMacName: String?
     var trustedMacs: [TrustedDevice] = []
     var pairingCandidates: [DiscoveredMac] = []
     var pairingErrorMessage: String?
-    var isPairingInProgress = false
+    var pairingStep = PairingStep.choosingMac
+    var isPairingScreenDismissed = false
+    var isNearbyScreenRequested = false
     var draggingItemURL: URL?
     var macSide: ScreenSide {
         didSet {
@@ -42,7 +57,8 @@ final class PhoneCoordinator {
     @ObservationIgnored private var browser: NWBrowser?
     @ObservationIgnored private var connection: PeerConnection?
     @ObservationIgnored private var connectingMac: DiscoveredMac?
-    @ObservationIgnored private var connectionIsPairingAttempt = false
+    @ObservationIgnored private var connectionPurpose = ConnectionPurpose.resume
+    @ObservationIgnored private var failedCodeAttempts = 0
     @ObservationIgnored private var discoveredMacs: [DiscoveredMac] = []
     @ObservationIgnored private var pendingIncoming: [UUID: TransferAnnouncement] = [:]
     @ObservationIgnored private var lastSentHover: (intensity: Double, verticalPosition: Double) = (0, 0.5)
@@ -52,6 +68,11 @@ final class PhoneCoordinator {
     @ObservationIgnored private let notificationFeedback = UINotificationFeedbackGenerator()
 
     var isConnected: Bool { linkState == .connected }
+
+    var showsPairingScreen: Bool {
+        let needsPairingAutomatically = linkState == .needsPairing || (linkState == .searching && trustedMacs.isEmpty)
+        return pairingStep != .choosingMac || isNearbyScreenRequested || (needsPairingAutomatically && !isPairingScreenDismissed)
+    }
 
     init() {
         macSide = ScreenSide(rawValue: UserDefaults.standard.string(forKey: Self.macSideDefaultsKey) ?? "") ?? .left
@@ -78,11 +99,37 @@ final class PhoneCoordinator {
         stage.abortAll()
     }
 
-    func submitPairingCode(_ code: String, for mac: DiscoveredMac) {
-        guard let passkey = Int(code) else { return }
+    func requestPairingCode(from mac: DiscoveredMac) {
+        guard pairingStep == .choosingMac else { return }
         pairingErrorMessage = nil
-        isPairingInProgress = true
+        failedCodeAttempts = 0
+        pairingStep = .requestingCode(mac)
+        impactFeedback.impactOccurred()
+        connect(to: mac, role: .requestCode)
+    }
+
+    func submitPairingCode(_ code: String) {
+        guard case .enteringCode(let mac) = pairingStep, let passkey = Int(code) else { return }
+        pairingErrorMessage = nil
+        pairingStep = .verifyingCode(mac)
         connect(to: mac, role: .pair(passkey: passkey))
+    }
+
+    func showNearbyMacs() {
+        isNearbyScreenRequested = true
+    }
+
+    func closePairingScreen() {
+        cancelPairing()
+        isNearbyScreenRequested = false
+        isPairingScreenDismissed = true
+    }
+
+    func cancelPairing() {
+        pairingStep = .choosingMac
+        pairingErrorMessage = nil
+        guard connectionPurpose != .resume else { return }
+        connection?.cancel()
     }
 
     func forget(_ mac: TrustedDevice) {
@@ -226,10 +273,13 @@ final class PhoneCoordinator {
         let peer = PeerConnection(endpoint: mac.endpoint, handshake: handshake)
         connection = peer
         connectingMac = mac
-        if case .pair = role {
-            connectionIsPairingAttempt = true
-        } else {
-            connectionIsPairingAttempt = false
+        switch role {
+        case .pair:
+            connectionPurpose = .pair
+        case .requestCode:
+            connectionPurpose = .requestCode
+        default:
+            connectionPurpose = .resume
             linkState = .connecting
         }
         peer.onEvent = { [weak self, weak peer] event in
@@ -243,6 +293,10 @@ final class PhoneCoordinator {
         switch event {
         case .ready(let info):
             handleSecureConnection(with: info)
+        case .pairingCodeDisplayed:
+            guard case .requestingCode(let mac) = pairingStep else { return }
+            pairingStep = .enteringCode(mac)
+            notificationFeedback.notificationOccurred(.success)
         case .closed(let failure):
             handleConnectionClosed(failure)
         case .message(let message):
@@ -261,7 +315,8 @@ final class PhoneCoordinator {
     private func handleSecureConnection(with info: PeerInfo) {
         if info.didPair {
             trustStore.trust(info)
-            isPairingInProgress = false
+            pairingStep = .choosingMac
+            isNearbyScreenRequested = false
             pairingErrorMessage = nil
             notificationFeedback.notificationOccurred(.success)
         } else {
@@ -269,43 +324,66 @@ final class PhoneCoordinator {
         }
         trustedMacs = trustStore.devices
         pairingCandidates = discoveredMacs.filter { trustStore.device(withID: $0.id) == nil }
-        connectionIsPairingAttempt = false
+        connectionPurpose = .resume
         connectedMacName = info.deviceName
         linkState = .connected
     }
 
     private func handleConnectionClosed(_ failure: PeerFailure?) {
-        let wasPairingAttempt = connectionIsPairingAttempt
+        let purpose = connectionPurpose
         let closedMac = connectingMac
         connection = nil
         connectingMac = nil
         connectedMacName = nil
         pendingIncoming.removeAll()
-        connectionIsPairingAttempt = false
+        connectionPurpose = .resume
         draggingItemURL = nil
         draggingTransferID = nil
         stage.abortAll()
 
-        if wasPairingAttempt {
-            isPairingInProgress = false
-            pairingErrorMessage = pairingErrorMessage(for: failure)
-            notificationFeedback.notificationOccurred(.error)
-        } else if failure == .untrusted, let closedMac {
-            trustStore.forget(deviceID: closedMac.id)
-            trustedMacs = trustStore.devices
+        switch purpose {
+        case .requestCode:
+            handleCodeRequestClosed(failure)
+        case .pair:
+            handlePairingAttemptClosed(failure)
+        case .resume:
+            if failure == .untrusted, let closedMac {
+                trustStore.forget(deviceID: closedMac.id)
+                trustedMacs = trustStore.devices
+            }
         }
         linkState = .searching
-        scheduleReconnect(after: wasPairingAttempt ? 0 : 1.5)
+        scheduleReconnect(after: purpose == .resume ? 1.5 : 0)
     }
 
-    private func pairingErrorMessage(for failure: PeerFailure?) -> String {
+    private func handleCodeRequestClosed(_ failure: PeerFailure?) {
+        guard case .requestingCode = pairingStep else { return }
+        pairingStep = .choosingMac
+        pairingErrorMessage = failure == .notAcceptingPairing
+            ? "Your Mac isn't accepting new iPhones right now. Wait a moment, then tap it again."
+            : "Couldn't reach your Mac. Make sure Wi-Fi is on and try again."
+        notificationFeedback.notificationOccurred(.error)
+    }
+
+    private func handlePairingAttemptClosed(_ failure: PeerFailure?) {
+        guard case .verifyingCode(let mac) = pairingStep else { return }
+        notificationFeedback.notificationOccurred(.error)
         switch failure {
         case .passkeyMismatch:
-            return "That code didn't match. Check the code on your Mac and try again."
+            failedCodeAttempts += 1
+            if failedCodeAttempts >= AirProService.maximumFailedPairingAttempts {
+                pairingStep = .choosingMac
+                pairingErrorMessage = "Too many wrong codes. Wait a moment, then tap your Mac again."
+            } else {
+                pairingStep = .enteringCode(mac)
+                pairingErrorMessage = "That code didn't match. Your Mac is now showing a new code."
+            }
         case .notAcceptingPairing:
-            return "Click Pair New iPhone in the AirProDrop menu on your Mac first."
+            pairingStep = .choosingMac
+            pairingErrorMessage = "The code expired. Tap your Mac to get a new one."
         default:
-            return "Couldn't connect. Make sure Wi-Fi is on and try again."
+            pairingStep = .enteringCode(mac)
+            pairingErrorMessage = "Couldn't reach your Mac. Make sure Wi-Fi is on and try again."
         }
     }
 

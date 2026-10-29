@@ -35,6 +35,7 @@
 		B97D3CCF22BBA0681E026429 /* EdgeGlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13A7BDACE02A92EA1DFF3DF /* EdgeGlow.swift */; };
 		BBB1B3C0DF4C4369BA04A177 /* AirProPhoneApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D82DB8FD0CFA28709C16D2 /* AirProPhoneApp.swift */; };
 		BE0CAB536AF407A9479F0C51 /* TrustStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEA4863D733C2C104552A29 /* TrustStore.swift */; };
+		D2CA0F4042182CF105EFB791 /* PairingCodePanelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A75E8F67A5251E2BCDD7CE /* PairingCodePanelController.swift */; };
 		D353498076D4F3988A5FF1C0 /* AirDropGlow.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9A16C86C2FA952AF9C67D2D7 /* AirDropGlow.metal */; };
 		D7C5C9C2BB795AE43A4F5C2E /* SecureStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77CBCEF0381F963696633220 /* SecureStore.swift */; };
 		DE86E3B94C029F4D09286DD3 /* OverlayWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCBB85868BE0969521CD8F8 /* OverlayWindowController.swift */; };
@@ -68,6 +69,7 @@
 		842B139DA8B3AD35C9F3D89F /* SecureHandshake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureHandshake.swift; sourceTree = "<group>"; };
 		8BCBB85868BE0969521CD8F8 /* OverlayWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayWindowController.swift; sourceTree = "<group>"; };
 		930360BE10B97A187682A8FE /* SnapshottableContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshottableContainer.swift; sourceTree = "<group>"; };
+		97A75E8F67A5251E2BCDD7CE /* PairingCodePanelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairingCodePanelController.swift; sourceTree = "<group>"; };
 		99D82DB8FD0CFA28709C16D2 /* AirProPhoneApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirProPhoneApp.swift; sourceTree = "<group>"; };
 		9A16C86C2FA952AF9C67D2D7 /* AirDropGlow.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = AirDropGlow.metal; sourceTree = "<group>"; };
 		9B8B20BC7821C0EE2F09F544 /* AirProDropPhone.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = AirProDropPhone.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -92,6 +94,7 @@
 				75AAAAC13E7F6D0768270D49 /* MacCoordinator.swift */,
 				D3E8A29190FCBC8CAF4EB469 /* MacMenuView.swift */,
 				8BCBB85868BE0969521CD8F8 /* OverlayWindowController.swift */,
+				97A75E8F67A5251E2BCDD7CE /* PairingCodePanelController.swift */,
 				0ECAD66E85777D73252A15A4 /* ReceivedFileNotifier.swift */,
 			);
 			path = Mac;
@@ -243,6 +246,7 @@
 				64CD60FD97DDC4E4D393B9DA /* MacCoordinator.swift in Sources */,
 				ED61A49B1DEB6BF58FC0152E /* MacMenuView.swift in Sources */,
 				DE86E3B94C029F4D09286DD3 /* OverlayWindowController.swift in Sources */,
+				D2CA0F4042182CF105EFB791 /* PairingCodePanelController.swift in Sources */,
 				9D7C773DA9B1D5109226A12C /* PeerConnection.swift in Sources */,
 				A9DBC65AE79018A2CD4EE7A0 /* ReceivedFileNotifier.swift in Sources */,
 				38977AFD732A6DFD68EF0FB6 /* SecureHandshake.swift in Sources */,

@@ -19,14 +19,9 @@ struct MacMenuView: View {
             return "Nearby"
         }
         if coordinator.pairingCode != nil {
-            return "Open AirProDrop on your iPhone, choose this Mac and enter the code"
+            return "Open AirProDrop on your iPhone, tap this Mac and enter the code"
         }
         return "Open AirProDrop on your iPhone to connect"
-    }
-
-    private var formattedPairingCode: String? {
-        guard let code = coordinator.pairingCode, code.count == 6 else { return coordinator.pairingCode }
-        return "\(code.prefix(3)) \(code.suffix(3))"
     }
 
     var body: some View {
@@ -45,7 +40,7 @@ struct MacMenuView: View {
                 }
             }
 
-            if let formattedPairingCode {
+            if let formattedPairingCode = coordinator.formattedPairingCode {
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Pairing code")
                         .font(.caption)
