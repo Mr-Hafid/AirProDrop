@@ -21,7 +21,7 @@ final class PhoneCoordinator {
 
     var linkState: LinkState = .searching
     var connectedMacName: String?
-    var pairedMacName: String?
+    var trustedMacs: [TrustedDevice] = []
     var pairingCandidates: [DiscoveredMac] = []
     var pairingErrorMessage: String?
     var isPairingInProgress = false
@@ -37,12 +37,12 @@ final class PhoneCoordinator {
     let library = FileLibrary()
 
     @ObservationIgnored private static let macSideDefaultsKey = "airpro.macSide"
-    @ObservationIgnored private let pairingStore = PairingStore()
+    @ObservationIgnored private let identity = DeviceIdentity.loadOrCreate()
+    @ObservationIgnored private let trustStore = TrustStore()
     @ObservationIgnored private var browser: NWBrowser?
     @ObservationIgnored private var connection: PeerConnection?
+    @ObservationIgnored private var connectingMac: DiscoveredMac?
     @ObservationIgnored private var connectionIsPairingAttempt = false
-    @ObservationIgnored private var didCompletePairingOnConnection = false
-    @ObservationIgnored private var recentPairingDate: Date?
     @ObservationIgnored private var discoveredMacs: [DiscoveredMac] = []
     @ObservationIgnored private var pendingIncoming: [UUID: TransferAnnouncement] = [:]
     @ObservationIgnored private var lastSentHover: (intensity: Double, verticalPosition: Double) = (0, 0.5)
@@ -55,7 +55,7 @@ final class PhoneCoordinator {
 
     init() {
         macSide = ScreenSide(rawValue: UserDefaults.standard.string(forKey: Self.macSideDefaultsKey) ?? "") ?? .left
-        pairedMacName = pairingStore.pairedPeer?.deviceName
+        trustedMacs = trustStore.devices
         stage.peerSide = macSide
         stage.restingScale = 1.25
     }
@@ -71,6 +71,7 @@ final class PhoneCoordinator {
         browser = nil
         connection?.cancel()
         connection = nil
+        connectingMac = nil
         connectedMacName = nil
         pendingIncoming.removeAll()
         linkState = .searching
@@ -78,19 +79,20 @@ final class PhoneCoordinator {
     }
 
     func submitPairingCode(_ code: String, for mac: DiscoveredMac) {
+        guard let passkey = Int(code) else { return }
         pairingErrorMessage = nil
         isPairingInProgress = true
-        connect(to: mac, sharedSecret: Data(code.utf8), isPairingAttempt: true)
+        connect(to: mac, role: .pair(passkey: passkey))
     }
 
-    func forgetPairedMac() {
-        pairingStore.pairedPeer = nil
-        pairedMacName = nil
+    func forget(_ mac: TrustedDevice) {
+        trustStore.forget(deviceID: mac.deviceID)
+        trustedMacs = trustStore.devices
+        guard connectingMac?.id == mac.deviceID else {
+            evaluateConnection()
+            return
+        }
         connection?.cancel()
-        connection = nil
-        connectedMacName = nil
-        linkState = .searching
-        evaluateConnection()
     }
 
     func beginDragging(_ item: LibraryItem, at point: CGPoint) {
@@ -199,55 +201,50 @@ final class PhoneCoordinator {
                 )
             }
             .sorted { $0.name < $1.name }
+        pairingCandidates = discoveredMacs.filter { trustStore.device(withID: $0.id) == nil }
         evaluateConnection()
     }
 
     private func evaluateConnection() {
+        pairingCandidates = discoveredMacs.filter { trustStore.device(withID: $0.id) == nil }
         guard connection == nil else { return }
-        let pairedPeer = pairingStore.pairedPeer
 
-        if let pairedPeer, let mac = discoveredMacs.first(where: { $0.id == pairedPeer.deviceID && !$0.isAcceptingPairing }) {
-            connect(to: mac, sharedSecret: pairedPeer.sharedSecret, isPairingAttempt: false)
+        let nearbyTrustedMacs = discoveredMacs
+            .compactMap { mac in trustStore.device(withID: mac.id).map { (mac, $0) } }
+            .sorted { $0.1.lastConnected > $1.1.lastConnected }
+        if let (mac, trustedMac) = nearbyTrustedMacs.first {
+            connect(to: mac, role: .resume(expectedIdentityKey: trustedMac.identityKey))
             return
         }
-
-        if let recentPairingDate, Date().timeIntervalSince(recentPairingDate) < 6 {
-            linkState = .connecting
-            scheduleReconnect(after: 1)
-            return
-        }
-
-        let candidates = discoveredMacs.filter(\.isAcceptingPairing)
-        pairingCandidates = pairedPeer.map { peer in candidates.filter { $0.id == peer.deviceID } } ?? candidates
         linkState = pairingCandidates.isEmpty ? .searching : .needsPairing
     }
 
-    private func connect(to mac: DiscoveredMac, sharedSecret: Data, isPairingAttempt: Bool) {
+    private func connect(to mac: DiscoveredMac, role: HandshakeRole) {
         reconnectWorkItem?.cancel()
         connection?.cancel()
-        let peer = PeerConnection(endpoint: mac.endpoint, sharedSecret: sharedSecret)
+        let handshake = SecureHandshake(role: role, identity: identity, deviceID: LocalDevice.identifier, deviceName: UIDevice.current.name)
+        let peer = PeerConnection(endpoint: mac.endpoint, handshake: handshake)
         connection = peer
-        connectionIsPairingAttempt = isPairingAttempt
-        didCompletePairingOnConnection = false
-        if !isPairingAttempt {
+        connectingMac = mac
+        if case .pair = role {
+            connectionIsPairingAttempt = true
+        } else {
+            connectionIsPairingAttempt = false
             linkState = .connecting
         }
         peer.onEvent = { [weak self, weak peer] event in
             guard let self, let peer, peer === self.connection else { return }
-            self.handle(event, from: peer)
+            self.handle(event)
         }
         peer.start()
     }
 
-    private func handle(_ event: PeerEvent, from peer: PeerConnection) {
+    private func handle(_ event: PeerEvent) {
         switch event {
-        case .ready:
-            if !connectionIsPairingAttempt {
-                linkState = .connected
-            }
-            peer.send(.hello(deviceName: UIDevice.current.name))
-        case .closed:
-            handleConnectionClosed()
+        case .ready(let info):
+            handleSecureConnection(with: info)
+        case .closed(let failure):
+            handleConnectionClosed(failure)
         case .message(let message):
             handle(message)
         case .bytesReceived(let transferID, let totalBytes):
@@ -261,9 +258,27 @@ final class PhoneCoordinator {
         }
     }
 
-    private func handleConnectionClosed() {
-        let pairingFailed = connectionIsPairingAttempt && !didCompletePairingOnConnection
+    private func handleSecureConnection(with info: PeerInfo) {
+        if info.didPair {
+            trustStore.trust(info)
+            isPairingInProgress = false
+            pairingErrorMessage = nil
+            notificationFeedback.notificationOccurred(.success)
+        } else {
+            trustStore.recordConnection(with: info)
+        }
+        trustedMacs = trustStore.devices
+        pairingCandidates = discoveredMacs.filter { trustStore.device(withID: $0.id) == nil }
+        connectionIsPairingAttempt = false
+        connectedMacName = info.deviceName
+        linkState = .connected
+    }
+
+    private func handleConnectionClosed(_ failure: PeerFailure?) {
+        let wasPairingAttempt = connectionIsPairingAttempt
+        let closedMac = connectingMac
         connection = nil
+        connectingMac = nil
         connectedMacName = nil
         pendingIncoming.removeAll()
         connectionIsPairingAttempt = false
@@ -271,13 +286,27 @@ final class PhoneCoordinator {
         draggingTransferID = nil
         stage.abortAll()
 
-        if pairingFailed {
+        if wasPairingAttempt {
             isPairingInProgress = false
-            pairingErrorMessage = "That code didn't match. Try again."
+            pairingErrorMessage = pairingErrorMessage(for: failure)
             notificationFeedback.notificationOccurred(.error)
+        } else if failure == .untrusted, let closedMac {
+            trustStore.forget(deviceID: closedMac.id)
+            trustedMacs = trustStore.devices
         }
         linkState = .searching
-        scheduleReconnect(after: pairingFailed ? 0 : 1.5)
+        scheduleReconnect(after: wasPairingAttempt ? 0 : 1.5)
+    }
+
+    private func pairingErrorMessage(for failure: PeerFailure?) -> String {
+        switch failure {
+        case .passkeyMismatch:
+            return "That code didn't match. Check the code on your Mac and try again."
+        case .notAcceptingPairing:
+            return "Click Pair New iPhone in the AirProDrop menu on your Mac first."
+        default:
+            return "Couldn't connect. Make sure Wi-Fi is on and try again."
+        }
     }
 
     private func scheduleReconnect(after delay: TimeInterval) {
@@ -291,18 +320,6 @@ final class PhoneCoordinator {
 
     private func handle(_ message: ControlMessage) {
         switch message {
-        case .hello(let deviceName):
-            connectedMacName = deviceName
-        case .pairingComplete(let sharedSecret, let deviceID, let deviceName):
-            pairingStore.pairedPeer = PairedPeer(deviceID: deviceID, deviceName: deviceName, sharedSecret: sharedSecret)
-            pairedMacName = deviceName
-            didCompletePairingOnConnection = true
-            recentPairingDate = Date()
-            isPairingInProgress = false
-            pairingErrorMessage = nil
-            pairingCandidates = []
-            linkState = .connecting
-            notificationFeedback.notificationOccurred(.success)
         case .edgeHover(let intensity, let verticalPosition):
             stage.showHover(intensity: intensity, verticalPosition: verticalPosition)
         case .transferStart(let announcement):

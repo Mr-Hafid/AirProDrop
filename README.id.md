@@ -1,4 +1,4 @@
-# AirPro Drop
+# AirProDrop
 
 [English](README.md) · **Bahasa Indonesia**
 
@@ -8,15 +8,16 @@ Kirim file antara Mac dan iPhone pakai gerakan, mirip AirDrop. Bedanya, file cuk
 - Tekan lama file di iPhone, lempar ke arah Mac, file langsung terbuka di Mac.
 - Tepi layar yang menghadap perangkat lain menyala silver, lalu busur cahaya menyapu kedua layar saat file menyeberang.
 
-Tidak perlu WiFi yang sama. Seperti AirDrop, AirPro Drop tersambung langsung antar perangkat lewat WiFi peer-to-peer milik Apple (AWDL). Cukup WiFi dalam keadaan menyala.
+Tidak perlu WiFi yang sama. Seperti AirDrop, AirProDrop tersambung langsung antar perangkat lewat WiFi peer-to-peer milik Apple (AWDL). Cukup WiFi dalam keadaan menyala.
 
 ## Fitur
 
 - **Drop di tepi layar Mac:** app menu bar memantau tepi layar yang bersebelahan dengan iPhone. Lepas file di sana untuk mengirim.
 - **Lempar untuk mengirim di iPhone:** tekan lama file, lalu lempar ke arah Mac.
 - **Efek visual ala AirDrop:** glow di tepi layar, cahaya di bingkai layar yang menipis dari tengah ke ujung, busur silver yang menyapu layar, dan efek riak yang membengkokkan isi layar iPhone saat gelombang lewat.
-- **Pairing sekali saja:** masukkan kode 6 digit satu kali. Setelah itu kedua perangkat saling menemukan dan tersambung otomatis, tanpa langkah "connect".
-- **Terenkripsi:** setiap koneksi memakai TLS dengan kunci rahasia yang dibuat saat pairing.
+- **Pairing sekali saja:** pilih Mac dari daftar Mac di sekitar, lalu masukkan kode 6 digit yang tampil di Mac, cukup sekali. Setelah itu kedua perangkat saling menemukan dan tersambung otomatis setiap kali app dibuka.
+- **Terenkripsi dengan forward secrecy:** setiap koneksi memakai pertukaran kunci baru, jadi meskipun suatu kunci bocor, transfer sebelumnya tetap tidak bisa dibuka.
+- **Banyak perangkat terpercaya:** bisa mempercayai beberapa iPhone atau Mac, dan melupakan salah satunya kapan saja.
 - **File yang diterima:**
   - Mac: disimpan langsung ke `~/Downloads` seperti AirDrop, lalu otomatis dibuka.
   - iPhone: tampil di grid file di dalam app, bisa dipreview dengan Quick Look, dibagikan, atau dihapus.
@@ -63,9 +64,11 @@ xcodegen generate
 
 ### 4. Pairing (cukup sekali)
 
-1. Klik ikon di menu bar Mac untuk melihat kode pairing 6 digit.
-2. Masukkan kode itu di panel pairing di iPhone.
+1. Klik ikon di menu bar Mac. Saat pertama kali, kode pairing 6 digit langsung tampil; berikutnya klik **Pair New iPhone…** untuk memunculkannya. Setiap kode berlaku 2 menit.
+2. Di iPhone, pilih Mac kamu dari **Nearby Macs**, lalu masukkan kodenya.
 3. Titik status di app iPhone berubah hijau dengan nama Mac kamu. Mulai saat itu, keduanya tersambung otomatis setiap kali app iPhone dibuka.
+
+Setelah 3 kali kode salah, Mac berhenti menerima perangkat baru sampai kamu klik **Pair New iPhone…** lagi.
 
 ### 5. Atur posisi iPhone
 
@@ -91,13 +94,16 @@ Tambahkan file lewat tombol foto atau **Import from Files**. Tekan lama sebuah f
 │ Strip drop di tepi ─┐                              │      │ Grid file ─ tekan lama + lempar    │
 │                     ▼                              │      │              │                     │
 │           MacCoordinator ── NWListener (Bonjour) ◄─┼─AWDL─┼─► NWBrowser ─ PhoneCoordinator     │
-│                  │           TLS-PSK               │      │              │                     │
+│                  │       X25519 + Ed25519          │      │              │                     │
 │   Jendela overlay (glow, busur, kartu terbang)     │      │  Glow, busur, riak konten, kartu   │
 └────────────────────────────────────────────────────┘      └────────────────────────────────────┘
 ```
 
 - **Discovery & koneksi:** `Network.framework` dengan Bonjour (`_airpro._tcp`) dan `includePeerToPeer = true`. Opsi ini mengaktifkan AWDL, jalur WiFi peer-to-peer yang sama dengan yang dipakai AirDrop.
-- **Keamanan:** saat pairing, kunci TLS dibuat dari kode 6 digit. Setelah berhasil, Mac membuat rahasia acak 32 byte yang disimpan di kedua sisi (di Keychain pada iOS) dan dipakai untuk setiap koneksi berikutnya.
+- **Identitas perangkat:** setiap perangkat membuat kunci identitas Ed25519 sendiri saat pertama kali dibuka (di Keychain pada iOS).
+- **Pairing:** kedua perangkat bertukar kunci X25519 sementara, lalu kode 6 digit dicocokkan per bit dengan sistem komitmen (ide yang sama dengan pairing Bluetooth berkode). Penyusup hanya punya satu kali tebakan dengan peluang satu banding sejuta dan tidak bisa mencoba-coba kode secara offline. Setelah kode cocok, masing-masing menyimpan kunci identitas perangkat lain sebagai perangkat terpercaya.
+- **Reconnect:** setiap koneksi menjalankan pertukaran kunci X25519 baru yang ditandatangani kunci identitas kedua perangkat. Perangkat yang menyamar sebagai Mac atau iPhone kamu akan ditolak, dan setiap sesi punya kunci sendiri (forward secrecy).
+- **Enkripsi:** setiap frame dienkripsi dengan ChaCha20-Poly1305 lewat CryptoKit.
 - **Protokol:** frame dengan panjang di depannya, berisi pesan kontrol JSON (hover, mulai transfer, pairing) dan potongan file 256 KB.
 - **Visual:** shader Metal lewat `colorEffect` dan `layerEffect` di SwiftUI. Di iPhone, efek riak dijalankan pada snapshot layar, karena shader tidak bisa langsung dipakai pada view berbasis UIKit.
 
@@ -107,8 +113,12 @@ Tambahkan file lewat tombol foto atau **Import from Files**. Tekan lama sebuah f
 project.yml                    Spesifikasi XcodeGen untuk kedua target
 Shared/                        Kode yang dipakai kedua app
   PeerConnection.swift         Framing, pesan kontrol, transfer file per potongan
-  SecureParameters.swift       NWParameters TLS-PSK dengan peer-to-peer aktif
-  PairingStore.swift           Penyimpanan perangkat yang dipasangkan, pembuatan kode dan rahasia
+  TransportParameters.swift    NWParameters TCP dengan peer-to-peer aktif
+  SecureHandshake.swift        Handshake pairing dan reconnect
+  SessionCipher.swift          Enkripsi frame ChaCha20-Poly1305
+  DeviceIdentity.swift         Kunci identitas tiap perangkat
+  TrustStore.swift             Daftar perangkat terpercaya
+  SecureStore.swift            Penyimpanan Keychain / UserDefaults
   ControlMessage.swift         Pesan yang dikirim antar perangkat
   TransferStage.swift          State glow dan animasi kartu terbang
   EdgeGlow.swift               View glow dan modifier riak konten
@@ -121,11 +131,12 @@ Phone/                         App iPhone, library file, UI pairing, container s
 
 ## Keterbatasan
 
-- **App iPhone harus terbuka di layar.** iOS menghentikan app pihak ketiga di background, jadi tidak seperti AirDrop, AirPro Drop tidak bisa menerima file saat app ditutup.
+- **App iPhone harus terbuka di layar.** iOS menghentikan app pihak ketiga di background, jadi tidak seperti AirDrop, AirProDrop tidak bisa menerima file saat app ditutup.
 - **Strip drop di Mac hanya selebar 4 px.** Kalau monitor eksternal diletakkan di sisi yang sama dengan iPhone, kursor akan pindah ke monitor itu, bukan berhenti di tepi layar.
 - **Di Mac hanya file dari Finder yang diterima.** Drag langsung dari app Photos atau browser (file promise) belum didukung.
 - **Desktop Mac tidak ikut beriak.** Membengkokkan jendela app lain butuh izin Screen Recording, jadi di Mac hanya glow dan busur yang tampil tanpa mendistorsi isi di belakangnya.
-- **Satu Mac hanya untuk satu iPhone.** Pairing iPhone baru akan menggantikan iPhone sebelumnya.
+- **Satu koneksi aktif per Mac.** Beberapa iPhone bisa dipercaya, tapi Mac hanya tersambung ke iPhone yang terakhir terhubung.
+- **Di Mac, kunci disimpan di UserDefaults** karena build development di-sign ad hoc. Memindahkannya ke Keychain butuh Team signing yang proper.
 
 ## Lisensi
 

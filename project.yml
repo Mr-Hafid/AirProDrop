@@ -1,6 +1,6 @@
 name: AirProDrop
 options:
-  bundleIdPrefix: com.mobileprintsoft.airpro
+  bundleIdPrefix: com.mrhafid.airpro
   deploymentTarget:
     iOS: "17.0"
     macOS: "14.0"
@@ -21,15 +21,15 @@ targets:
     info:
       path: Mac/Info.plist
       properties:
-        CFBundleDisplayName: AirPro Drop
+        CFBundleDisplayName: AirProDrop
         LSUIElement: true
-        NSLocalNetworkUsageDescription: AirPro Drop finds your iPhone nearby to send and receive files.
+        NSLocalNetworkUsageDescription: AirProDrop finds your iPhone nearby to send and receive files.
         NSBonjourServices:
           - _airpro._tcp
     settings:
       base:
-        PRODUCT_NAME: AirPro Drop
-        PRODUCT_BUNDLE_IDENTIFIER: com.mobileprintsoft.airpro.mac
+        PRODUCT_NAME: AirProDrop
+        PRODUCT_BUNDLE_IDENTIFIER: com.mrhafid.airpro.mac
         CODE_SIGN_STYLE: Automatic
         CODE_SIGN_IDENTITY: "-"
         ENABLE_HARDENED_RUNTIME: NO
@@ -42,18 +42,18 @@ targets:
     info:
       path: Phone/Info.plist
       properties:
-        CFBundleDisplayName: AirPro Drop
+        CFBundleDisplayName: AirProDrop
         UILaunchScreen: {}
         UIFileSharingEnabled: true
         LSSupportsOpeningDocumentsInPlace: false
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait
-        NSLocalNetworkUsageDescription: AirPro Drop finds your Mac nearby to send and receive files.
+        NSLocalNetworkUsageDescription: AirProDrop finds your Mac nearby to send and receive files.
         NSBonjourServices:
           - _airpro._tcp
     settings:
       base:
-        PRODUCT_NAME: AirPro Drop
-        PRODUCT_BUNDLE_IDENTIFIER: com.mobileprintsoft.airpro.phone
+        PRODUCT_NAME: AirProDrop
+        PRODUCT_BUNDLE_IDENTIFIER: com.mrhafid.airpro.phone
         TARGETED_DEVICE_FAMILY: "1"
         CODE_SIGN_STYLE: Automatic

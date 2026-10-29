@@ -2,8 +2,8 @@ import Foundation
 import Network
 
 enum PeerEvent {
-    case ready
-    case closed(NWError?)
+    case ready(PeerInfo)
+    case closed(PeerFailure?)
     case message(ControlMessage)
     case bytesReceived(transferID: UUID, totalBytes: Int64)
     case fileReceived(transferID: UUID, temporaryURL: URL)
@@ -14,6 +14,7 @@ final class PeerConnection {
         case control = 1
         case fileChunk = 2
         case fileEnd = 3
+        case handshake = 4
     }
 
     private struct IncomingFile {
@@ -25,17 +26,19 @@ final class PeerConnection {
     var onEvent: ((PeerEvent) -> Void)?
 
     private let connection: NWConnection
-    private let queue = DispatchQueue(label: "com.mobileprintsoft.airpro.connection")
+    private let handshake: SecureHandshake
+    private let queue = DispatchQueue(label: "com.mrhafid.airprodrop.connection")
+    private var cipher: SessionCipher?
     private var incomingFiles: [UUID: IncomingFile] = [:]
     private var hasTerminated = false
-    private(set) var isReady = false
 
-    init(connection: NWConnection) {
+    init(connection: NWConnection, handshake: SecureHandshake) {
         self.connection = connection
+        self.handshake = handshake
     }
 
-    convenience init(endpoint: NWEndpoint, sharedSecret: Data) {
-        self.init(connection: NWConnection(to: endpoint, using: .airPro(sharedSecret: sharedSecret)))
+    convenience init(endpoint: NWEndpoint, handshake: SecureHandshake) {
+        self.init(connection: NWConnection(to: endpoint, using: .airProTransport), handshake: handshake)
     }
 
     func start() {
@@ -43,11 +46,10 @@ final class PeerConnection {
             guard let self else { return }
             switch state {
             case .ready:
-                self.isReady = true
-                self.emit(.ready)
+                self.handshake.start().forEach(self.sendHandshake)
                 self.receiveNextFrame()
-            case .failed(let error), .waiting(let error):
-                self.terminate(with: error)
+            case .failed, .waiting:
+                self.terminate(with: .network)
             case .cancelled:
                 self.terminate(with: nil)
             default:
@@ -56,8 +58,8 @@ final class PeerConnection {
         }
         connection.start(queue: queue)
         queue.asyncAfter(deadline: .now() + AirProService.handshakeTimeout) { [weak self] in
-            guard let self, !self.isReady, !self.hasTerminated else { return }
-            self.terminate(with: nil)
+            guard let self, self.cipher == nil, !self.hasTerminated else { return }
+            self.terminate(with: .timeout)
         }
     }
 
@@ -87,13 +89,13 @@ final class PeerConnection {
         let chunk = (try? handle.read(upToCount: AirProService.fileChunkLength)) ?? Data()
         if chunk.isEmpty {
             try? handle.close()
-            sendFrame(kind: .fileEnd, payload: transferID.dataRepresentation) { error in
-                DispatchQueue.main.async { completion(error == nil) }
+            sendFrame(kind: .fileEnd, payload: transferID.dataRepresentation) { succeeded in
+                DispatchQueue.main.async { completion(succeeded) }
             }
             return
         }
-        sendFrame(kind: .fileChunk, payload: transferID.dataRepresentation + chunk) { [weak self] error in
-            guard let self, error == nil, !self.hasTerminated else {
+        sendFrame(kind: .fileChunk, payload: transferID.dataRepresentation + chunk) { [weak self] succeeded in
+            guard let self, succeeded, !self.hasTerminated else {
                 try? handle.close()
                 DispatchQueue.main.async { completion(false) }
                 return
@@ -102,25 +104,52 @@ final class PeerConnection {
         }
     }
 
-    private func sendFrame(kind: FrameKind, payload: Data, completion: @escaping (NWError?) -> Void) {
-        var frame = Data([kind.rawValue])
-        var bigEndianLength = UInt32(payload.count).bigEndian
-        frame.append(Data(bytes: &bigEndianLength, count: MemoryLayout<UInt32>.size))
-        frame.append(payload)
-        connection.send(content: frame, completion: .contentProcessed(completion))
+    private func sendHandshake(_ message: HandshakeMessage) {
+        sendHandshake(message, completion: nil)
+    }
+
+    private func sendHandshake(_ message: HandshakeMessage, completion: (() -> Void)?) {
+        guard let payload = try? JSONEncoder().encode(message) else { return }
+        sendFrame(kind: .handshake, payload: payload) { _ in completion?() }
+    }
+
+    private func sendFrame(kind: FrameKind, payload: Data, completion: @escaping (Bool) -> Void) {
+        queue.async {
+            guard !self.hasTerminated else {
+                completion(false)
+                return
+            }
+            let body: Data
+            if kind == .handshake {
+                body = payload
+            } else {
+                guard let cipher = self.cipher, let sealed = try? cipher.seal(payload, kind: kind.rawValue) else {
+                    completion(false)
+                    return
+                }
+                body = sealed
+            }
+            var frame = Data([kind.rawValue])
+            var bigEndianLength = UInt32(body.count).bigEndian
+            frame.append(Data(bytes: &bigEndianLength, count: MemoryLayout<UInt32>.size))
+            frame.append(body)
+            self.connection.send(content: frame, completion: .contentProcessed { error in
+                completion(error == nil)
+            })
+        }
     }
 
     private func receiveNextFrame() {
         connection.receive(minimumIncompleteLength: 5, maximumLength: 5) { [weak self] header, _, isComplete, error in
             guard let self else { return }
             guard error == nil, let header, header.count == 5 else {
-                self.terminate(with: error)
+                self.terminate(with: .network)
                 return
             }
             let headerBytes = Array(header)
             let payloadLength = headerBytes[1...4].reduce(0) { $0 << 8 | Int($1) }
             guard let kind = FrameKind(rawValue: headerBytes[0]), payloadLength <= AirProService.maximumFrameLength else {
-                self.connection.cancel()
+                self.terminate(with: .protocolViolation)
                 return
             }
             guard payloadLength > 0 else {
@@ -130,32 +159,69 @@ final class PeerConnection {
             }
             self.connection.receive(minimumIncompleteLength: payloadLength, maximumLength: payloadLength) { payload, _, isComplete, error in
                 guard error == nil, let payload, payload.count == payloadLength else {
-                    self.terminate(with: error)
+                    self.terminate(with: .network)
                     return
                 }
                 self.handleFrame(kind: kind, payload: payload)
+                guard !self.hasTerminated else { return }
                 isComplete ? self.connection.cancel() : self.receiveNextFrame()
             }
         }
     }
 
     private func handleFrame(kind: FrameKind, payload: Data) {
+        if kind == .handshake {
+            handleHandshake(payload)
+            return
+        }
+        guard let cipher, let plaintext = try? cipher.open(payload, kind: kind.rawValue) else {
+            terminate(with: .protocolViolation)
+            return
+        }
         switch kind {
         case .control:
-            guard let message = try? JSONDecoder().decode(ControlMessage.self, from: payload) else { return }
+            guard let message = try? JSONDecoder().decode(ControlMessage.self, from: plaintext) else { return }
             emit(.message(message))
         case .fileChunk:
-            guard let transferID = UUID(dataRepresentation: payload.prefix(16)) else { return }
-            appendChunk(payload.dropFirst(16), to: transferID)
+            guard let transferID = UUID(dataRepresentation: plaintext.prefix(16)) else { return }
+            appendChunk(plaintext.dropFirst(16), to: transferID)
         case .fileEnd:
-            guard let transferID = UUID(dataRepresentation: payload.prefix(16)) else { return }
+            guard let transferID = UUID(dataRepresentation: plaintext.prefix(16)) else { return }
             finishFile(transferID)
+        case .handshake:
+            break
+        }
+    }
+
+    private func handleHandshake(_ payload: Data) {
+        guard cipher == nil, let message = try? JSONDecoder().decode(HandshakeMessage.self, from: payload) else {
+            terminate(with: .protocolViolation)
+            return
+        }
+        do {
+            switch try handshake.receive(message) {
+            case .send(let messages):
+                messages.forEach(sendHandshake)
+            case .established(let sessionCipher, let peer, let messages):
+                messages.forEach(sendHandshake)
+                cipher = sessionCipher
+                emit(.ready(peer))
+            }
+        } catch {
+            let failure = error as? PeerFailure ?? .protocolViolation
+            if case .rejected = message {
+                terminate(with: failure)
+                return
+            }
+            sendHandshake(.rejected(failure)) { [weak self] in
+                self?.queue.async { self?.terminate(with: failure) }
+            }
         }
     }
 
     private func appendChunk(_ chunk: Data, to transferID: UUID) {
         if incomingFiles[transferID] == nil {
-            let url = FileManager.default.temporaryDirectory.appendingPathComponent("airpro-\(transferID.uuidString)")
+            let url = FileManager.default.temporaryDirectory.appendingPathComponent("airprodrop-\(transferID.uuidString)")
             FileManager.default.createFile(atPath: url.path, contents: nil)
             guard let handle = try? FileHandle(forWritingTo: url) else { return }
             incomingFiles[transferID] = IncomingFile(handle: handle, url: url, receivedBytes: 0)
@@ -176,17 +242,16 @@ final class PeerConnection {
         emit(.fileReceived(transferID: transferID, temporaryURL: incomingFile.url))
     }
 
-    private func terminate(with error: NWError?) {
+    private func terminate(with failure: PeerFailure?) {
         guard !hasTerminated else { return }
         hasTerminated = true
-        isReady = false
         for incomingFile in incomingFiles.values {
             try? incomingFile.handle.close()
             try? FileManager.default.removeItem(at: incomingFile.url)
         }
         incomingFiles.removeAll()
         connection.cancel()
-        emit(.closed(error))
+        emit(.closed(failure))
     }
 
     private func emit(_ event: PeerEvent) {

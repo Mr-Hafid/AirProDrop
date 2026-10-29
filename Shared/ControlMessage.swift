@@ -9,8 +9,6 @@ struct TransferAnnouncement: Codable, Equatable {
 }
 
 enum ControlMessage: Codable, Equatable {
-    case hello(deviceName: String)
-    case pairingComplete(sharedSecret: Data, deviceID: String, deviceName: String)
     case edgeHover(intensity: Double, verticalPosition: Double)
     case transferStart(TransferAnnouncement)
     case transferFailed(id: UUID)

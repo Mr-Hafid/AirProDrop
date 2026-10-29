@@ -8,20 +8,20 @@ struct MacMenuView: View {
         if let connectedPhoneName = coordinator.connectedPhoneName {
             return connectedPhoneName
         }
-        if let pairedPhoneName = coordinator.pairedPhoneName {
-            return pairedPhoneName
+        if coordinator.trustedDevices.isEmpty {
+            return "No iPhone paired"
         }
-        return "No iPhone paired"
+        return "No iPhone connected"
     }
 
     private var statusDetail: String {
         if coordinator.connectedPhoneName != nil {
             return "Nearby"
         }
-        if coordinator.pairedPhoneName != nil {
-            return "Open AirPro Drop on your iPhone"
+        if coordinator.pairingCode != nil {
+            return "Open AirProDrop on your iPhone, choose this Mac and enter the code"
         }
-        return "Open AirPro Drop on your iPhone and enter the code"
+        return "Open AirProDrop on your iPhone to connect"
     }
 
     private var formattedPairingCode: String? {
@@ -41,6 +41,7 @@ struct MacMenuView: View {
                     Text(statusDetail)
                         .font(.caption)
                         .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
             }
 
@@ -53,6 +54,31 @@ struct MacMenuView: View {
                         .font(.system(size: 30, weight: .semibold, design: .rounded))
                         .monospacedDigit()
                         .textSelection(.enabled)
+                    if let pairingExpiresAt = coordinator.pairingExpiresAt {
+                        Text("Expires \(pairingExpiresAt, style: .relative)")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            }
+
+            if !coordinator.trustedDevices.isEmpty {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Trusted iPhones")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                    ForEach(coordinator.trustedDevices) { device in
+                        HStack {
+                            Text(device.name)
+                                .lineLimit(1)
+                            Spacer()
+                            Button("Forget") {
+                                coordinator.forget(device)
+                            }
+                            .buttonStyle(.borderless)
+                            .foregroundStyle(.red)
+                        }
+                    }
                 }
             }
 
@@ -80,9 +106,13 @@ struct MacMenuView: View {
             VStack(alignment: .leading, spacing: 8) {
                 Button("Send Files…", action: coordinator.chooseFilesToSend)
                 Button("Open Received Folder", action: coordinator.openReceivedFolder)
-                Button(coordinator.pairingCode == nil ? "Pair a Different iPhone" : "New Pairing Code", action: coordinator.pairNewPhone)
+                if coordinator.pairingCode == nil {
+                    Button("Pair New iPhone…", action: coordinator.openPairingWindow)
+                } else {
+                    Button("Cancel Pairing", action: coordinator.closePairingWindow)
+                }
                 Divider()
-                Button("Quit AirPro Drop") {
+                Button("Quit AirProDrop") {
                     NSApp.terminate(nil)
                 }
             }

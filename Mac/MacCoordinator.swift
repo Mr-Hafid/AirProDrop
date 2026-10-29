@@ -5,8 +5,9 @@ import Observation
 @Observable
 final class MacCoordinator {
     var pairingCode: String?
+    var pairingExpiresAt: Date?
     var connectedPhoneName: String?
-    var pairedPhoneName: String?
+    var trustedDevices: [TrustedDevice] = []
     var phoneSide: ScreenSide {
         didSet {
             UserDefaults.standard.set(phoneSide.rawValue, forKey: Self.phoneSideDefaultsKey)
@@ -17,7 +18,11 @@ final class MacCoordinator {
     let stage = TransferStage()
 
     @ObservationIgnored private static let phoneSideDefaultsKey = "airpro.phoneSide"
-    @ObservationIgnored private let pairingStore = PairingStore()
+    @ObservationIgnored private let identity = DeviceIdentity.loadOrCreate()
+    @ObservationIgnored private let trustStore = TrustStore()
+    @ObservationIgnored private var connectedPhoneIdentityKey: Data?
+    @ObservationIgnored private var failedPairingAttempts = 0
+    @ObservationIgnored private var pairingWindowCloser: DispatchWorkItem?
     @ObservationIgnored private let receivedFileNotifier = ReceivedFileNotifier()
     @ObservationIgnored private var listener: NWListener?
     @ObservationIgnored private var connection: PeerConnection?
@@ -36,7 +41,7 @@ final class MacCoordinator {
 
     init() {
         phoneSide = ScreenSide(rawValue: UserDefaults.standard.string(forKey: Self.phoneSideDefaultsKey) ?? "") ?? .right
-        pairedPhoneName = pairingStore.pairedPeer?.deviceName
+        trustedDevices = trustStore.devices
         stage.peerSide = phoneSide
         stage.restingScale = 1.7
     }
@@ -51,14 +56,37 @@ final class MacCoordinator {
         }
         self.overlay = overlay
         receivedFileNotifier.start()
+        if trustedDevices.isEmpty {
+            openPairingWindow()
+        } else {
+            startListening()
+        }
+    }
+
+    func openPairingWindow() {
+        failedPairingAttempts = 0
+        pairingCode = AirProService.makePairingCode()
+        pairingExpiresAt = Date().addingTimeInterval(AirProService.pairingWindowDuration)
+        pairingWindowCloser?.cancel()
+        let closer = DispatchWorkItem { [weak self] in self?.closePairingWindow() }
+        pairingWindowCloser = closer
+        DispatchQueue.main.asyncAfter(deadline: .now() + AirProService.pairingWindowDuration, execute: closer)
         startListening()
     }
 
-    func pairNewPhone() {
-        pairingStore.pairedPeer = nil
-        pairedPhoneName = nil
-        connection?.cancel()
+    func closePairingWindow() {
+        pairingWindowCloser?.cancel()
+        pairingWindowCloser = nil
+        pairingCode = nil
+        pairingExpiresAt = nil
         startListening()
+    }
+
+    func forget(_ device: TrustedDevice) {
+        trustStore.forget(deviceID: device.deviceID)
+        trustedDevices = trustStore.devices
+        guard connectedPhoneIdentityKey == device.identityKey else { return }
+        connection?.cancel()
     }
 
     func chooseFilesToSend() {
@@ -81,32 +109,17 @@ final class MacCoordinator {
         listener?.cancel()
         listener = nil
 
-        let pairedPeer = pairingStore.pairedPeer
-        let sharedSecret: Data
-        let mode: String
-        if let pairedPeer {
-            sharedSecret = pairedPeer.sharedSecret
-            mode = AirProService.pairedModeValue
-            pairingCode = nil
-        } else {
-            let code = PairingStore.makePairingCode()
-            sharedSecret = Data(code.utf8)
-            mode = AirProService.pairingModeValue
-            pairingCode = code
-        }
-
-        guard let newListener = try? NWListener(using: .airPro(sharedSecret: sharedSecret)) else {
+        guard let newListener = try? NWListener(using: .airProTransport) else {
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in self?.startListening() }
             return
         }
         let txtRecord = NWTXTRecord([
-            AirProService.modeKey: mode,
+            AirProService.modeKey: pairingCode == nil ? AirProService.pairedModeValue : AirProService.pairingModeValue,
             AirProService.deviceIDKey: LocalDevice.identifier
         ])
         newListener.service = NWListener.Service(name: macName, type: AirProService.bonjourType, domain: nil, txtRecord: txtRecord.data)
-        let isPairingListener = pairedPeer == nil
         newListener.newConnectionHandler = { [weak self] newConnection in
-            self?.accept(newConnection, isPairing: isPairingListener)
+            self?.accept(newConnection)
         }
         newListener.stateUpdateHandler = { [weak self, weak newListener] state in
             guard case .failed = state else { return }
@@ -119,26 +132,30 @@ final class MacCoordinator {
         listener = newListener
     }
 
-    private func accept(_ newConnection: NWConnection, isPairing: Bool) {
-        let peer = PeerConnection(connection: newConnection)
-        let peerID = ObjectIdentifier(peer)
-        handshakingConnections[peerID] = peer
+    private func accept(_ newConnection: NWConnection) {
+        let role = HandshakeRole.respond(trustedIdentityKeys: trustStore.identityKeys, passkey: pairingCode.flatMap(Int.init))
+        let handshake = SecureHandshake(role: role, identity: identity, deviceID: LocalDevice.identifier, deviceName: macName)
+        let peer = PeerConnection(connection: newConnection, handshake: handshake)
+        handshakingConnections[ObjectIdentifier(peer)] = peer
         peer.onEvent = { [weak self, weak peer] event in
             guard let self, let peer else { return }
-            self.handle(event, from: peer, isPairing: isPairing)
+            self.handle(event, from: peer)
         }
         peer.start()
     }
 
-    private func handle(_ event: PeerEvent, from peer: PeerConnection, isPairing: Bool) {
+    private func handle(_ event: PeerEvent, from peer: PeerConnection) {
         let peerID = ObjectIdentifier(peer)
         if handshakingConnections[peerID] != nil {
             switch event {
-            case .ready:
+            case .ready(let info):
                 handshakingConnections[peerID] = nil
-                promote(peer, isPairing: isPairing)
-            case .closed:
+                promote(peer, info: info)
+            case .closed(let failure):
                 handshakingConnections[peerID] = nil
+                if failure == .passkeyMismatch {
+                    registerFailedPairingAttempt()
+                }
             default:
                 break
             }
@@ -152,6 +169,7 @@ final class MacCoordinator {
         case .closed:
             connection = nil
             connectedPhoneName = nil
+            connectedPhoneIdentityKey = nil
             pendingIncoming.removeAll()
             stage.abortAll()
         case .message(let message):
@@ -166,34 +184,32 @@ final class MacCoordinator {
         }
     }
 
-    private func promote(_ peer: PeerConnection, isPairing: Bool) {
+    private func promote(_ peer: PeerConnection, info: PeerInfo) {
+        if info.didPair {
+            trustStore.trust(info)
+            closePairingWindow()
+        } else {
+            trustStore.recordConnection(with: info)
+        }
+        trustedDevices = trustStore.devices
         connection?.cancel()
         connection = peer
-        peer.send(.hello(deviceName: macName))
-        guard isPairing else { return }
+        connectedPhoneName = info.deviceName
+        connectedPhoneIdentityKey = info.identityKey
+    }
 
-        let sharedSecret = PairingStore.makeSharedSecret()
-        peer.send(.pairingComplete(sharedSecret: sharedSecret, deviceID: LocalDevice.identifier, deviceName: macName)) { [weak self] in
-            guard let self else { return }
-            let phoneName = self.connectedPhoneName ?? "iPhone"
-            self.pairingStore.pairedPeer = PairedPeer(deviceID: "", deviceName: phoneName, sharedSecret: sharedSecret)
-            self.pairedPhoneName = phoneName
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                peer.cancel()
-                self.startListening()
-            }
+    private func registerFailedPairingAttempt() {
+        guard pairingCode != nil else { return }
+        failedPairingAttempts += 1
+        if failedPairingAttempts >= AirProService.maximumFailedPairingAttempts {
+            closePairingWindow()
+        } else {
+            pairingCode = AirProService.makePairingCode()
         }
     }
 
     private func handle(_ message: ControlMessage) {
         switch message {
-        case .hello(let deviceName):
-            connectedPhoneName = deviceName
-            if var pairedPeer = pairingStore.pairedPeer, pairedPeer.deviceName != deviceName {
-                pairedPeer.deviceName = deviceName
-                pairingStore.pairedPeer = pairedPeer
-                pairedPhoneName = deviceName
-            }
         case .edgeHover(let intensity, let verticalPosition):
             stage.showHover(intensity: intensity, verticalPosition: verticalPosition)
         case .transferStart(let announcement):
@@ -207,8 +223,6 @@ final class MacCoordinator {
         case .transferFailed(let transferID):
             pendingIncoming[transferID] = nil
             stage.abortAll()
-        case .pairingComplete:
-            break
         }
     }
 

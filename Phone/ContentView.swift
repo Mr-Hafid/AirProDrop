@@ -101,7 +101,7 @@ struct ContentView: View {
     private var libraryNavigation: some View {
         NavigationStack {
             libraryContent
-                .navigationTitle("AirPro Drop")
+                .navigationTitle("AirProDrop")
                 .toolbar { toolbarContent }
         }
     }
@@ -159,7 +159,7 @@ struct ContentView: View {
     @ToolbarContentBuilder
     private var toolbarContent: some ToolbarContent {
         ToolbarItem(placement: .topBarLeading) {
-            LinkStatusBadge(linkState: coordinator.linkState, macName: coordinator.connectedMacName ?? coordinator.pairedMacName)
+            LinkStatusBadge(linkState: coordinator.linkState, macName: coordinator.connectedMacName)
         }
         ToolbarItemGroup(placement: .topBarTrailing) {
             PhotosPicker(selection: $selectedPhotos, matching: .any(of: [.images, .videos])) {
@@ -176,9 +176,15 @@ struct ContentView: View {
                         Text("Mac on the \(side.title.lowercased())").tag(side)
                     }
                 }
-                if coordinator.pairedMacName != nil {
-                    Button(role: .destructive, action: coordinator.forgetPairedMac) {
-                        Label("Forget \(coordinator.pairedMacName ?? "Mac")", systemImage: "xmark.circle")
+                if !coordinator.trustedMacs.isEmpty {
+                    Section("Trusted Macs") {
+                        ForEach(coordinator.trustedMacs) { mac in
+                            Button(role: .destructive) {
+                                coordinator.forget(mac)
+                            } label: {
+                                Label("Forget \(mac.name)", systemImage: "xmark.circle")
+                            }
+                        }
                     }
                 }
             } label: {

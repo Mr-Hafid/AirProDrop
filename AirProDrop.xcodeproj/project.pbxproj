@@ -9,19 +9,23 @@
 /* Begin PBXBuildFile section */
 		16A2C07F6F9498E0F66DA2EB /* EdgeDropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101E778D2033C93755B71067 /* EdgeDropView.swift */; };
 		1AB40F466BAE67F03C957D70 /* ThumbnailRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B022DC604B7361022B372572 /* ThumbnailRenderer.swift */; };
-		24F160E806BFE1C186D19E3D /* PairingStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73237F99FC3EA3086936567 /* PairingStore.swift */; };
+		355FCD0EE90D9882CA36A50E /* SecureHandshake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842B139DA8B3AD35C9F3D89F /* SecureHandshake.swift */; };
 		381AC01F5DA03166B2422A9F /* AirProMacApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF86AA3D61ABDB5752BA4B3 /* AirProMacApp.swift */; };
+		38977AFD732A6DFD68EF0FB6 /* SecureHandshake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842B139DA8B3AD35C9F3D89F /* SecureHandshake.swift */; };
 		3C7D2A051A205B9CB050C033 /* FlyingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81EAA8FC798FA21D5A215079 /* FlyingCard.swift */; };
-		4F7B2E6343EF0478C01468D4 /* SecureParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21DDF3ECF2EC6631EFC975BB /* SecureParameters.swift */; };
-		5886D3E769DD53BB6F5595AF /* PairingStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73237F99FC3EA3086936567 /* PairingStore.swift */; };
-		5F8A73A317577BF659C574DF /* SecureParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21DDF3ECF2EC6631EFC975BB /* SecureParameters.swift */; };
+		475CC8DA9CF8632853B1D81C /* SessionCipher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25ADBBD9C7BE4314B32B18D0 /* SessionCipher.swift */; };
+		50ADBEE01230D36787A3C515 /* TransportParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69382FF4CF70FD56B69B04ED /* TransportParameters.swift */; };
+		5B5D3A8CD4E64567097201BB /* TrustStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEA4863D733C2C104552A29 /* TrustStore.swift */; };
 		63A211C4C8CC393D843D9B53 /* PairingPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A207300BC29A887E9B81DA41 /* PairingPanel.swift */; };
 		64CD60FD97DDC4E4D393B9DA /* MacCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AAAAC13E7F6D0768270D49 /* MacCoordinator.swift */; };
 		64DEDED4D1DBC638E60D3518 /* AirDropGlow.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9A16C86C2FA952AF9C67D2D7 /* AirDropGlow.metal */; };
 		64E14C2D2D3E51F3133A4020 /* AirProService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B042026E0AE59E73AEDFF0BB /* AirProService.swift */; };
+		69103E701E81FD67F1B36FF4 /* SessionCipher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25ADBBD9C7BE4314B32B18D0 /* SessionCipher.swift */; };
 		695196A8582D130295604A95 /* AirProService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B042026E0AE59E73AEDFF0BB /* AirProService.swift */; };
+		75D8E3CC076C2FA938177ECD /* TransportParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69382FF4CF70FD56B69B04ED /* TransportParameters.swift */; };
 		7FFC68AFA98C0B3446385B04 /* TransferStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B70772D0FE89EF21A3810C /* TransferStage.swift */; };
 		838E4EC6097A5EE527B2B2D7 /* FlyingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81EAA8FC798FA21D5A215079 /* FlyingCard.swift */; };
+		8B2B9B448CC1F216CCDFBB99 /* SecureStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77CBCEF0381F963696633220 /* SecureStore.swift */; };
 		97E27E903590D7C607687C00 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3D27F76350D927F854E578 /* ContentView.swift */; };
 		9D7C773DA9B1D5109226A12C /* PeerConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7CB94391E66B4D4E849C61 /* PeerConnection.swift */; };
 		9FB4485FFFDF30BA35BAC274 /* FileLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C652228F66FE5F21BD6308A /* FileLibrary.swift */; };
@@ -30,29 +34,38 @@
 		B75043371161FF4F0F62927F /* ThumbnailRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B022DC604B7361022B372572 /* ThumbnailRenderer.swift */; };
 		B97D3CCF22BBA0681E026429 /* EdgeGlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13A7BDACE02A92EA1DFF3DF /* EdgeGlow.swift */; };
 		BBB1B3C0DF4C4369BA04A177 /* AirProPhoneApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D82DB8FD0CFA28709C16D2 /* AirProPhoneApp.swift */; };
+		BE0CAB536AF407A9479F0C51 /* TrustStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEA4863D733C2C104552A29 /* TrustStore.swift */; };
 		D353498076D4F3988A5FF1C0 /* AirDropGlow.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9A16C86C2FA952AF9C67D2D7 /* AirDropGlow.metal */; };
+		D7C5C9C2BB795AE43A4F5C2E /* SecureStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77CBCEF0381F963696633220 /* SecureStore.swift */; };
 		DE86E3B94C029F4D09286DD3 /* OverlayWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCBB85868BE0969521CD8F8 /* OverlayWindowController.swift */; };
 		E142809764750E7994D7AF02 /* PeerConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7CB94391E66B4D4E849C61 /* PeerConnection.swift */; };
 		E6DBF4E80939628A8A0D1E3A /* EdgeGlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13A7BDACE02A92EA1DFF3DF /* EdgeGlow.swift */; };
+		E8EF62081EA63082B8004BD3 /* DeviceIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C557C4AC4CFAA800044CD43 /* DeviceIdentity.swift */; };
 		E97D7D4DEFB4B60E6C17C3D5 /* ControlMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498C55D7ECA77FBDD93ACD45 /* ControlMessage.swift */; };
 		ED61A49B1DEB6BF58FC0152E /* MacMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E8A29190FCBC8CAF4EB469 /* MacMenuView.swift */; };
 		F54B3FEBE70AC5DEA0CB2029 /* ControlMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498C55D7ECA77FBDD93ACD45 /* ControlMessage.swift */; };
 		F773354602DBBDB27F6BD6B8 /* SnapshottableContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930360BE10B97A187682A8FE /* SnapshottableContainer.swift */; };
 		F785B2E42CC24582CB63EBE9 /* PhoneCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223CAB4D9525508FFD9564EC /* PhoneCoordinator.swift */; };
+		FDA7CB78BB999D89D6BA9C3E /* DeviceIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C557C4AC4CFAA800044CD43 /* DeviceIdentity.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0ECAD66E85777D73252A15A4 /* ReceivedFileNotifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivedFileNotifier.swift; sourceTree = "<group>"; };
 		101E778D2033C93755B71067 /* EdgeDropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdgeDropView.swift; sourceTree = "<group>"; };
 		14230D899DA9055F1283364C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		21DDF3ECF2EC6631EFC975BB /* SecureParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureParameters.swift; sourceTree = "<group>"; };
 		223CAB4D9525508FFD9564EC /* PhoneCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCoordinator.swift; sourceTree = "<group>"; };
+		25ADBBD9C7BE4314B32B18D0 /* SessionCipher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCipher.swift; sourceTree = "<group>"; };
 		498C55D7ECA77FBDD93ACD45 /* ControlMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlMessage.swift; sourceTree = "<group>"; };
+		5BEA4863D733C2C104552A29 /* TrustStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrustStore.swift; sourceTree = "<group>"; };
 		5C652228F66FE5F21BD6308A /* FileLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileLibrary.swift; sourceTree = "<group>"; };
 		65B70772D0FE89EF21A3810C /* TransferStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferStage.swift; sourceTree = "<group>"; };
 		66CBA2C8C272088E3E87BCDE /* AirProDropMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AirProDropMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		69382FF4CF70FD56B69B04ED /* TransportParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransportParameters.swift; sourceTree = "<group>"; };
 		75AAAAC13E7F6D0768270D49 /* MacCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacCoordinator.swift; sourceTree = "<group>"; };
+		77CBCEF0381F963696633220 /* SecureStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureStore.swift; sourceTree = "<group>"; };
+		7C557C4AC4CFAA800044CD43 /* DeviceIdentity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceIdentity.swift; sourceTree = "<group>"; };
 		81EAA8FC798FA21D5A215079 /* FlyingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlyingCard.swift; sourceTree = "<group>"; };
+		842B139DA8B3AD35C9F3D89F /* SecureHandshake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureHandshake.swift; sourceTree = "<group>"; };
 		8BCBB85868BE0969521CD8F8 /* OverlayWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayWindowController.swift; sourceTree = "<group>"; };
 		930360BE10B97A187682A8FE /* SnapshottableContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshottableContainer.swift; sourceTree = "<group>"; };
 		99D82DB8FD0CFA28709C16D2 /* AirProPhoneApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirProPhoneApp.swift; sourceTree = "<group>"; };
@@ -63,7 +76,6 @@
 		B022DC604B7361022B372572 /* ThumbnailRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailRenderer.swift; sourceTree = "<group>"; };
 		B042026E0AE59E73AEDFF0BB /* AirProService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirProService.swift; sourceTree = "<group>"; };
 		C13A7BDACE02A92EA1DFF3DF /* EdgeGlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdgeGlow.swift; sourceTree = "<group>"; };
-		C73237F99FC3EA3086936567 /* PairingStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairingStore.swift; sourceTree = "<group>"; };
 		D3E8A29190FCBC8CAF4EB469 /* MacMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacMenuView.swift; sourceTree = "<group>"; };
 		DAF86AA3D61ABDB5752BA4B3 /* AirProMacApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirProMacApp.swift; sourceTree = "<group>"; };
 		EF7CB94391E66B4D4E849C61 /* PeerConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerConnection.swift; sourceTree = "<group>"; };
@@ -110,13 +122,17 @@
 				9A16C86C2FA952AF9C67D2D7 /* AirDropGlow.metal */,
 				B042026E0AE59E73AEDFF0BB /* AirProService.swift */,
 				498C55D7ECA77FBDD93ACD45 /* ControlMessage.swift */,
+				7C557C4AC4CFAA800044CD43 /* DeviceIdentity.swift */,
 				C13A7BDACE02A92EA1DFF3DF /* EdgeGlow.swift */,
 				81EAA8FC798FA21D5A215079 /* FlyingCard.swift */,
-				C73237F99FC3EA3086936567 /* PairingStore.swift */,
 				EF7CB94391E66B4D4E849C61 /* PeerConnection.swift */,
-				21DDF3ECF2EC6631EFC975BB /* SecureParameters.swift */,
+				842B139DA8B3AD35C9F3D89F /* SecureHandshake.swift */,
+				77CBCEF0381F963696633220 /* SecureStore.swift */,
+				25ADBBD9C7BE4314B32B18D0 /* SessionCipher.swift */,
 				B022DC604B7361022B372572 /* ThumbnailRenderer.swift */,
 				65B70772D0FE89EF21A3810C /* TransferStage.swift */,
+				69382FF4CF70FD56B69B04ED /* TransportParameters.swift */,
+				5BEA4863D733C2C104552A29 /* TrustStore.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -220,18 +236,22 @@
 				381AC01F5DA03166B2422A9F /* AirProMacApp.swift in Sources */,
 				695196A8582D130295604A95 /* AirProService.swift in Sources */,
 				E97D7D4DEFB4B60E6C17C3D5 /* ControlMessage.swift in Sources */,
+				E8EF62081EA63082B8004BD3 /* DeviceIdentity.swift in Sources */,
 				16A2C07F6F9498E0F66DA2EB /* EdgeDropView.swift in Sources */,
 				B97D3CCF22BBA0681E026429 /* EdgeGlow.swift in Sources */,
 				3C7D2A051A205B9CB050C033 /* FlyingCard.swift in Sources */,
 				64CD60FD97DDC4E4D393B9DA /* MacCoordinator.swift in Sources */,
 				ED61A49B1DEB6BF58FC0152E /* MacMenuView.swift in Sources */,
 				DE86E3B94C029F4D09286DD3 /* OverlayWindowController.swift in Sources */,
-				5886D3E769DD53BB6F5595AF /* PairingStore.swift in Sources */,
 				9D7C773DA9B1D5109226A12C /* PeerConnection.swift in Sources */,
 				A9DBC65AE79018A2CD4EE7A0 /* ReceivedFileNotifier.swift in Sources */,
-				5F8A73A317577BF659C574DF /* SecureParameters.swift in Sources */,
+				38977AFD732A6DFD68EF0FB6 /* SecureHandshake.swift in Sources */,
+				D7C5C9C2BB795AE43A4F5C2E /* SecureStore.swift in Sources */,
+				475CC8DA9CF8632853B1D81C /* SessionCipher.swift in Sources */,
 				1AB40F466BAE67F03C957D70 /* ThumbnailRenderer.swift in Sources */,
 				7FFC68AFA98C0B3446385B04 /* TransferStage.swift in Sources */,
+				75D8E3CC076C2FA938177ECD /* TransportParameters.swift in Sources */,
+				5B5D3A8CD4E64567097201BB /* TrustStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,17 +264,21 @@
 				64E14C2D2D3E51F3133A4020 /* AirProService.swift in Sources */,
 				97E27E903590D7C607687C00 /* ContentView.swift in Sources */,
 				F54B3FEBE70AC5DEA0CB2029 /* ControlMessage.swift in Sources */,
+				FDA7CB78BB999D89D6BA9C3E /* DeviceIdentity.swift in Sources */,
 				E6DBF4E80939628A8A0D1E3A /* EdgeGlow.swift in Sources */,
 				9FB4485FFFDF30BA35BAC274 /* FileLibrary.swift in Sources */,
 				838E4EC6097A5EE527B2B2D7 /* FlyingCard.swift in Sources */,
 				63A211C4C8CC393D843D9B53 /* PairingPanel.swift in Sources */,
-				24F160E806BFE1C186D19E3D /* PairingStore.swift in Sources */,
 				E142809764750E7994D7AF02 /* PeerConnection.swift in Sources */,
 				F785B2E42CC24582CB63EBE9 /* PhoneCoordinator.swift in Sources */,
-				4F7B2E6343EF0478C01468D4 /* SecureParameters.swift in Sources */,
+				355FCD0EE90D9882CA36A50E /* SecureHandshake.swift in Sources */,
+				8B2B9B448CC1F216CCDFBB99 /* SecureStore.swift in Sources */,
+				69103E701E81FD67F1B36FF4 /* SessionCipher.swift in Sources */,
 				F773354602DBBDB27F6BD6B8 /* SnapshottableContainer.swift in Sources */,
 				B75043371161FF4F0F62927F /* ThumbnailRenderer.swift in Sources */,
 				A5B8B0B5CF646D578F90A46A /* TransferStage.swift in Sources */,
+				50ADBEE01230D36787A3C515 /* TransportParameters.swift in Sources */,
+				BE0CAB536AF407A9479F0C51 /* TrustStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,8 +296,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.mobileprintsoft.airpro.phone;
-				PRODUCT_NAME = "AirPro Drop";
+				PRODUCT_BUNDLE_IDENTIFIER = com.mrhafid.airpro.phone;
+				PRODUCT_NAME = AirProDrop;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -292,8 +316,8 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.mobileprintsoft.airpro.mac;
-				PRODUCT_NAME = "AirPro Drop";
+				PRODUCT_BUNDLE_IDENTIFIER = com.mrhafid.airpro.mac;
+				PRODUCT_NAME = AirProDrop;
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -309,8 +333,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.mobileprintsoft.airpro.phone;
-				PRODUCT_NAME = "AirPro Drop";
+				PRODUCT_BUNDLE_IDENTIFIER = com.mrhafid.airpro.phone;
+				PRODUCT_NAME = AirProDrop;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -395,8 +419,8 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.mobileprintsoft.airpro.mac;
-				PRODUCT_NAME = "AirPro Drop";
+				PRODUCT_BUNDLE_IDENTIFIER = com.mrhafid.airpro.mac;
+				PRODUCT_NAME = AirProDrop;
 				SDKROOT = macosx;
 			};
 			name = Release;

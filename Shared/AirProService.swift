@@ -8,7 +8,13 @@ enum AirProService {
     static let deviceIDKey = "id"
     static let maximumFrameLength = 16 * 1024 * 1024
     static let fileChunkLength = 256 * 1024
-    static let handshakeTimeout: TimeInterval = 6
+    static let handshakeTimeout: TimeInterval = 10
+    static let pairingWindowDuration: TimeInterval = 120
+    static let maximumFailedPairingAttempts = 3
+
+    static func makePairingCode() -> String {
+        String(format: "%06d", Int.random(in: 0...999_999))
+    }
 }
 
 enum ScreenSide: String, Codable, CaseIterable, Identifiable {
