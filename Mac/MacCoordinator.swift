@@ -26,7 +26,7 @@ final class MacCoordinator {
     @ObservationIgnored private var lastSentHover: (intensity: Double, verticalPosition: Double) = (0, 0.5)
 
     var receivedFolder: URL {
-        FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask)[0].appendingPathComponent("AirPro", isDirectory: true)
+        FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask)[0].appendingPathComponent("AirPro Drop", isDirectory: true)
     }
 
     private var macName: String {

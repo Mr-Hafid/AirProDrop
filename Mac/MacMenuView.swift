@@ -19,9 +19,9 @@ struct MacMenuView: View {
             return "Nearby"
         }
         if coordinator.pairedPhoneName != nil {
-            return "Open AirPro on your iPhone"
+            return "Open AirPro Drop on your iPhone"
         }
-        return "Open AirPro on your iPhone and enter the code"
+        return "Open AirPro Drop on your iPhone and enter the code"
     }
 
     private var formattedPairingCode: String? {
@@ -82,7 +82,7 @@ struct MacMenuView: View {
                 Button("Open Received Folder", action: coordinator.openReceivedFolder)
                 Button(coordinator.pairingCode == nil ? "Pair a Different iPhone" : "New Pairing Code", action: coordinator.pairNewPhone)
                 Divider()
-                Button("Quit AirPro") {
+                Button("Quit AirPro Drop") {
                     NSApp.terminate(nil)
                 }
             }

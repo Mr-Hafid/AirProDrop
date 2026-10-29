@@ -101,7 +101,7 @@ struct ContentView: View {
     private var libraryNavigation: some View {
         NavigationStack {
             libraryContent
-                .navigationTitle("AirPro")
+                .navigationTitle("AirPro Drop")
                 .toolbar { toolbarContent }
         }
     }

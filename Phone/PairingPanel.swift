@@ -32,7 +32,7 @@ struct PairingPanel: View {
                 .pickerStyle(.menu)
             }
 
-            Text("Enter the 6-digit code shown in the AirPro menu on \(selectedMac?.name ?? "your Mac").")
+            Text("Enter the 6-digit code shown in the AirPro Drop menu on \(selectedMac?.name ?? "your Mac").")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
