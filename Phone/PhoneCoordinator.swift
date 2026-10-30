@@ -43,7 +43,7 @@ final class PhoneCoordinator {
     var draggingItemURL: URL?
     var macSide: ScreenSide {
         didSet {
-            UserDefaults.standard.set(macSide.rawValue, forKey: Self.macSideDefaultsKey)
+            SharedContainer.defaults.set(macSide.rawValue, forKey: SharedContainer.macSideDefaultsKey)
             stage.peerSide = macSide
         }
     }
@@ -51,7 +51,6 @@ final class PhoneCoordinator {
     let stage = TransferStage()
     let library = FileLibrary()
 
-    @ObservationIgnored private static let macSideDefaultsKey = "airpro.macSide"
     @ObservationIgnored private let identity = DeviceIdentity.loadOrCreate()
     @ObservationIgnored private let trustStore = TrustStore()
     @ObservationIgnored private var browser: NWBrowser?
@@ -75,7 +74,7 @@ final class PhoneCoordinator {
     }
 
     init() {
-        macSide = ScreenSide(rawValue: UserDefaults.standard.string(forKey: Self.macSideDefaultsKey) ?? "") ?? .left
+        macSide = ScreenSide(rawValue: SharedContainer.string(forKey: SharedContainer.macSideDefaultsKey) ?? "") ?? .left
         trustedMacs = trustStore.devices
         stage.peerSide = macSide
         stage.restingScale = 1.25

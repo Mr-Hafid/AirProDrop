@@ -10,7 +10,7 @@ settings:
     SWIFT_VERSION: "5.0"
     MARKETING_VERSION: "0.1.0"
     CURRENT_PROJECT_VERSION: "1"
-    DEVELOPMENT_TEAM: ""
+    DEVELOPMENT_TEAM: K8HS5K3B93
 targets:
   AirProDropMac:
     type: application
@@ -40,6 +40,13 @@ targets:
     sources:
       - Shared
       - Phone
+    dependencies:
+      - target: AirProDropShare
+    entitlements:
+      path: Phone/AirProDropPhone.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.com.mrhafid.airpro
     info:
       path: Phone/Info.plist
       properties:
@@ -57,5 +64,37 @@ targets:
         PRODUCT_NAME: AirProDrop
         PRODUCT_BUNDLE_IDENTIFIER: com.mrhafid.airpro.phone
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        TARGETED_DEVICE_FAMILY: "1"
+        CODE_SIGN_STYLE: Automatic
+  AirProDropShare:
+    type: app-extension
+    platform: iOS
+    sources:
+      - Shared
+      - ShareExtension
+    entitlements:
+      path: ShareExtension/AirProDropShare.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.com.mrhafid.airpro
+    info:
+      path: ShareExtension/Info.plist
+      properties:
+        CFBundleDisplayName: AirProDrop
+        NSLocalNetworkUsageDescription: AirProDrop finds your Mac nearby to send files.
+        NSBonjourServices:
+          - _airpro._tcp
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.share-services
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).ShareViewController
+          NSExtensionAttributes:
+            NSExtensionActivationRule:
+              NSExtensionActivationSupportsImageWithMaxCount: 20
+              NSExtensionActivationSupportsMovieWithMaxCount: 20
+              NSExtensionActivationSupportsFileWithMaxCount: 20
+    settings:
+      base:
+        PRODUCT_NAME: AirProDropShare
+        PRODUCT_BUNDLE_IDENTIFIER: com.mrhafid.airpro.phone.share
         TARGETED_DEVICE_FAMILY: "1"
         CODE_SIGN_STYLE: Automatic

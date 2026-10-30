@@ -41,11 +41,11 @@ enum LocalDevice {
     private static let deviceIDDefaultsKey = "airpro.localDeviceID"
 
     static var identifier: String {
-        if let existing = UserDefaults.standard.string(forKey: deviceIDDefaultsKey) {
+        if let existing = SharedContainer.string(forKey: deviceIDDefaultsKey) {
             return existing
         }
         let created = UUID().uuidString
-        UserDefaults.standard.set(created, forKey: deviceIDDefaultsKey)
+        SharedContainer.defaults.set(created, forKey: deviceIDDefaultsKey)
         return created
     }
 }

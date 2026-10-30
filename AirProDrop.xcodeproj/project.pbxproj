@@ -7,58 +7,108 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0552FB5C6D3249AEADF42A7D /* TransferStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B70772D0FE89EF21A3810C /* TransferStage.swift */; };
 		05BE87F15FF6CC8E8CF2F61D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF5121DB2A9BA790A17F7A3F /* Assets.xcassets */; };
+		0A5FD598F31855C0F26E0C9D /* SharedContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47532836B0F394753FA08055 /* SharedContainer.swift */; };
+		0C25FF8BAECD9060525AD7F4 /* SecureStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77CBCEF0381F963696633220 /* SecureStore.swift */; };
 		16A2C07F6F9498E0F66DA2EB /* EdgeDropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101E778D2033C93755B71067 /* EdgeDropView.swift */; };
 		1AB40F466BAE67F03C957D70 /* ThumbnailRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B022DC604B7361022B372572 /* ThumbnailRenderer.swift */; };
+		1CF7829CA7524F493DD43483 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9793FB48AB5BEFF5BF43CA /* ShareViewController.swift */; };
+		27200C4C182D0D871FB06C09 /* PeerConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7CB94391E66B4D4E849C61 /* PeerConnection.swift */; };
+		27257254223662BA61B4DADF /* ThumbnailRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B022DC604B7361022B372572 /* ThumbnailRenderer.swift */; };
 		355FCD0EE90D9882CA36A50E /* SecureHandshake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842B139DA8B3AD35C9F3D89F /* SecureHandshake.swift */; };
 		381AC01F5DA03166B2422A9F /* AirProMacApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF86AA3D61ABDB5752BA4B3 /* AirProMacApp.swift */; };
 		38977AFD732A6DFD68EF0FB6 /* SecureHandshake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842B139DA8B3AD35C9F3D89F /* SecureHandshake.swift */; };
 		3C7D2A051A205B9CB050C033 /* FlyingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81EAA8FC798FA21D5A215079 /* FlyingCard.swift */; };
+		4385D983537A1B4B3EADED0D /* ControlMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498C55D7ECA77FBDD93ACD45 /* ControlMessage.swift */; };
 		475CC8DA9CF8632853B1D81C /* SessionCipher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25ADBBD9C7BE4314B32B18D0 /* SessionCipher.swift */; };
+		4EF40FCB64753B5A63C0C82C /* TrustStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEA4863D733C2C104552A29 /* TrustStore.swift */; };
 		50ADBEE01230D36787A3C515 /* TransportParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69382FF4CF70FD56B69B04ED /* TransportParameters.swift */; };
+		5163B1EF0A164B3113B2F4EF /* EdgeGlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13A7BDACE02A92EA1DFF3DF /* EdgeGlow.swift */; };
+		58AF16B97182F11799A490CA /* TransportParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69382FF4CF70FD56B69B04ED /* TransportParameters.swift */; };
 		5B5D3A8CD4E64567097201BB /* TrustStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEA4863D733C2C104552A29 /* TrustStore.swift */; };
 		63A211C4C8CC393D843D9B53 /* PairingPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A207300BC29A887E9B81DA41 /* PairingPanel.swift */; };
 		64CD60FD97DDC4E4D393B9DA /* MacCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AAAAC13E7F6D0768270D49 /* MacCoordinator.swift */; };
 		64DEDED4D1DBC638E60D3518 /* AirDropGlow.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9A16C86C2FA952AF9C67D2D7 /* AirDropGlow.metal */; };
 		64E14C2D2D3E51F3133A4020 /* AirProService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B042026E0AE59E73AEDFF0BB /* AirProService.swift */; };
 		69103E701E81FD67F1B36FF4 /* SessionCipher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25ADBBD9C7BE4314B32B18D0 /* SessionCipher.swift */; };
+		69157A2E35968947EF1A7D86 /* FlyingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81EAA8FC798FA21D5A215079 /* FlyingCard.swift */; };
 		695196A8582D130295604A95 /* AirProService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B042026E0AE59E73AEDFF0BB /* AirProService.swift */; };
+		7159DA90BC46CC279988A1CF /* ShareCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE88600D96CCB5264A38E893 /* ShareCoordinator.swift */; };
+		719CF5C9A127299CF81B9908 /* SecureHandshake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842B139DA8B3AD35C9F3D89F /* SecureHandshake.swift */; };
+		719D832053272C0B0D3B246A /* AirProDropShare.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D904DBF0E7F0E644DAB3824A /* AirProDropShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		75D8E3CC076C2FA938177ECD /* TransportParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69382FF4CF70FD56B69B04ED /* TransportParameters.swift */; };
 		774FC2D2B7ADFBBAE005E6BA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 42A56F683441F80CF71190C5 /* Assets.xcassets */; };
 		7FFC68AFA98C0B3446385B04 /* TransferStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B70772D0FE89EF21A3810C /* TransferStage.swift */; };
 		838E4EC6097A5EE527B2B2D7 /* FlyingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81EAA8FC798FA21D5A215079 /* FlyingCard.swift */; };
+		83B35C583B7D7D552DBFCA1A /* SharedContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47532836B0F394753FA08055 /* SharedContainer.swift */; };
 		8B2B9B448CC1F216CCDFBB99 /* SecureStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77CBCEF0381F963696633220 /* SecureStore.swift */; };
+		8DB0E2C33778C2E0AE48FC6A /* ShareSendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E82B3231720C0713AEAAF3 /* ShareSendView.swift */; };
 		97E27E903590D7C607687C00 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3D27F76350D927F854E578 /* ContentView.swift */; };
 		9D7C773DA9B1D5109226A12C /* PeerConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7CB94391E66B4D4E849C61 /* PeerConnection.swift */; };
 		9FB4485FFFDF30BA35BAC274 /* FileLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C652228F66FE5F21BD6308A /* FileLibrary.swift */; };
 		A5B8B0B5CF646D578F90A46A /* TransferStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B70772D0FE89EF21A3810C /* TransferStage.swift */; };
 		A9DBC65AE79018A2CD4EE7A0 /* ReceivedFileNotifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECAD66E85777D73252A15A4 /* ReceivedFileNotifier.swift */; };
+		B113D955213D3326C88F3E3A /* GlassStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA18CF768CED1E98516D0A18 /* GlassStyles.swift */; };
+		B6D955C89A68577CBBF29418 /* DeviceIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C557C4AC4CFAA800044CD43 /* DeviceIdentity.swift */; };
 		B75043371161FF4F0F62927F /* ThumbnailRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B022DC604B7361022B372572 /* ThumbnailRenderer.swift */; };
+		B8973410F5F4F6789A42FDE0 /* SessionCipher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25ADBBD9C7BE4314B32B18D0 /* SessionCipher.swift */; };
 		B97D3CCF22BBA0681E026429 /* EdgeGlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13A7BDACE02A92EA1DFF3DF /* EdgeGlow.swift */; };
 		BBB1B3C0DF4C4369BA04A177 /* AirProPhoneApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99D82DB8FD0CFA28709C16D2 /* AirProPhoneApp.swift */; };
 		BE0CAB536AF407A9479F0C51 /* TrustStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEA4863D733C2C104552A29 /* TrustStore.swift */; };
+		C832D5A75BA1AC2F64BC6F54 /* AirDropGlow.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9A16C86C2FA952AF9C67D2D7 /* AirDropGlow.metal */; };
 		D2CA0F4042182CF105EFB791 /* PairingCodePanelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A75E8F67A5251E2BCDD7CE /* PairingCodePanelController.swift */; };
 		D353498076D4F3988A5FF1C0 /* AirDropGlow.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9A16C86C2FA952AF9C67D2D7 /* AirDropGlow.metal */; };
 		D7C5C9C2BB795AE43A4F5C2E /* SecureStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77CBCEF0381F963696633220 /* SecureStore.swift */; };
+		D971F5D5F4BF6B93CAF35809 /* AirProService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B042026E0AE59E73AEDFF0BB /* AirProService.swift */; };
+		DB51DF4FAF02F2FF908550D8 /* GlassStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA18CF768CED1E98516D0A18 /* GlassStyles.swift */; };
 		DE86E3B94C029F4D09286DD3 /* OverlayWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCBB85868BE0969521CD8F8 /* OverlayWindowController.swift */; };
 		E142809764750E7994D7AF02 /* PeerConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7CB94391E66B4D4E849C61 /* PeerConnection.swift */; };
+		E5931C856957CE306C3FC152 /* GlassStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA18CF768CED1E98516D0A18 /* GlassStyles.swift */; };
 		E6DBF4E80939628A8A0D1E3A /* EdgeGlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13A7BDACE02A92EA1DFF3DF /* EdgeGlow.swift */; };
 		E8EF62081EA63082B8004BD3 /* DeviceIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C557C4AC4CFAA800044CD43 /* DeviceIdentity.swift */; };
 		E97D7D4DEFB4B60E6C17C3D5 /* ControlMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498C55D7ECA77FBDD93ACD45 /* ControlMessage.swift */; };
 		ED61A49B1DEB6BF58FC0152E /* MacMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3E8A29190FCBC8CAF4EB469 /* MacMenuView.swift */; };
 		F54B3FEBE70AC5DEA0CB2029 /* ControlMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 498C55D7ECA77FBDD93ACD45 /* ControlMessage.swift */; };
+		F6BCF8DC6A18E9E1A20F8D6D /* SharedContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47532836B0F394753FA08055 /* SharedContainer.swift */; };
 		F773354602DBBDB27F6BD6B8 /* SnapshottableContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 930360BE10B97A187682A8FE /* SnapshottableContainer.swift */; };
 		F785B2E42CC24582CB63EBE9 /* PhoneCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223CAB4D9525508FFD9564EC /* PhoneCoordinator.swift */; };
 		FDA7CB78BB999D89D6BA9C3E /* DeviceIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C557C4AC4CFAA800044CD43 /* DeviceIdentity.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		C68B75D99EBFA4D693E6A0D8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 60A06A4A0F1E459B06413158 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8CA1E5B93C9153026833BB55;
+			remoteInfo = AirProDropShare;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		996145DF727A7F56E58C2C71 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				719D832053272C0B0D3B246A /* AirProDropShare.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		0ECAD66E85777D73252A15A4 /* ReceivedFileNotifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivedFileNotifier.swift; sourceTree = "<group>"; };
 		101E778D2033C93755B71067 /* EdgeDropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdgeDropView.swift; sourceTree = "<group>"; };
 		14230D899DA9055F1283364C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		1AF86217E5B6436EFF9F1975 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		223CAB4D9525508FFD9564EC /* PhoneCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCoordinator.swift; sourceTree = "<group>"; };
 		25ADBBD9C7BE4314B32B18D0 /* SessionCipher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCipher.swift; sourceTree = "<group>"; };
 		42A56F683441F80CF71190C5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		47532836B0F394753FA08055 /* SharedContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedContainer.swift; sourceTree = "<group>"; };
 		498C55D7ECA77FBDD93ACD45 /* ControlMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlMessage.swift; sourceTree = "<group>"; };
 		5BEA4863D733C2C104552A29 /* TrustStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrustStore.swift; sourceTree = "<group>"; };
 		5C652228F66FE5F21BD6308A /* FileLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileLibrary.swift; sourceTree = "<group>"; };
@@ -74,21 +124,40 @@
 		930360BE10B97A187682A8FE /* SnapshottableContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshottableContainer.swift; sourceTree = "<group>"; };
 		97A75E8F67A5251E2BCDD7CE /* PairingCodePanelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairingCodePanelController.swift; sourceTree = "<group>"; };
 		99D82DB8FD0CFA28709C16D2 /* AirProPhoneApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirProPhoneApp.swift; sourceTree = "<group>"; };
+		9A01CFACB68506BF85A8A592 /* AirProDropPhone.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AirProDropPhone.entitlements; sourceTree = "<group>"; };
 		9A16C86C2FA952AF9C67D2D7 /* AirDropGlow.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = AirDropGlow.metal; sourceTree = "<group>"; };
 		9B8B20BC7821C0EE2F09F544 /* AirProDropPhone.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = AirProDropPhone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BFC8AF67276E8B42CA636A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		9C9793FB48AB5BEFF5BF43CA /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		A207300BC29A887E9B81DA41 /* PairingPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairingPanel.swift; sourceTree = "<group>"; };
+		AE88600D96CCB5264A38E893 /* ShareCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareCoordinator.swift; sourceTree = "<group>"; };
 		B022DC604B7361022B372572 /* ThumbnailRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailRenderer.swift; sourceTree = "<group>"; };
 		B042026E0AE59E73AEDFF0BB /* AirProService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirProService.swift; sourceTree = "<group>"; };
+		BA18CF768CED1E98516D0A18 /* GlassStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassStyles.swift; sourceTree = "<group>"; };
 		C13A7BDACE02A92EA1DFF3DF /* EdgeGlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdgeGlow.swift; sourceTree = "<group>"; };
 		CF5121DB2A9BA790A17F7A3F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D0E82B3231720C0713AEAAF3 /* ShareSendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSendView.swift; sourceTree = "<group>"; };
 		D3E8A29190FCBC8CAF4EB469 /* MacMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacMenuView.swift; sourceTree = "<group>"; };
+		D904DBF0E7F0E644DAB3824A /* AirProDropShare.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = AirProDropShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAF86AA3D61ABDB5752BA4B3 /* AirProMacApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirProMacApp.swift; sourceTree = "<group>"; };
 		EF7CB94391E66B4D4E849C61 /* PeerConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerConnection.swift; sourceTree = "<group>"; };
 		FA3D27F76350D927F854E578 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		FC29658BE52088FC8621D088 /* AirProDropShare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AirProDropShare.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
+		26188565EBB9BA0A3AF529AF /* ShareExtension */ = {
+			isa = PBXGroup;
+			children = (
+				FC29658BE52088FC8621D088 /* AirProDropShare.entitlements */,
+				1AF86217E5B6436EFF9F1975 /* Info.plist */,
+				AE88600D96CCB5264A38E893 /* ShareCoordinator.swift */,
+				D0E82B3231720C0713AEAAF3 /* ShareSendView.swift */,
+				9C9793FB48AB5BEFF5BF43CA /* ShareViewController.swift */,
+			);
+			path = ShareExtension;
+			sourceTree = "<group>";
+		};
 		4B77CCC1EA12FA276F207995 /* Mac */ = {
 			isa = PBXGroup;
 			children = (
@@ -111,6 +180,7 @@
 				4B77CCC1EA12FA276F207995 /* Mac */,
 				E676D67E2B5D8EC1770C950C /* Phone */,
 				D756478772BADE9B4AE15D23 /* Shared */,
+				26188565EBB9BA0A3AF529AF /* ShareExtension */,
 				8F3135155E7E06C86C17996E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -120,6 +190,7 @@
 			children = (
 				66CBA2C8C272088E3E87BCDE /* AirProDropMac.app */,
 				9B8B20BC7821C0EE2F09F544 /* AirProDropPhone.app */,
+				D904DBF0E7F0E644DAB3824A /* AirProDropShare.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -133,10 +204,12 @@
 				7C557C4AC4CFAA800044CD43 /* DeviceIdentity.swift */,
 				C13A7BDACE02A92EA1DFF3DF /* EdgeGlow.swift */,
 				81EAA8FC798FA21D5A215079 /* FlyingCard.swift */,
+				BA18CF768CED1E98516D0A18 /* GlassStyles.swift */,
 				EF7CB94391E66B4D4E849C61 /* PeerConnection.swift */,
 				842B139DA8B3AD35C9F3D89F /* SecureHandshake.swift */,
 				77CBCEF0381F963696633220 /* SecureStore.swift */,
 				25ADBBD9C7BE4314B32B18D0 /* SessionCipher.swift */,
+				47532836B0F394753FA08055 /* SharedContainer.swift */,
 				B022DC604B7361022B372572 /* ThumbnailRenderer.swift */,
 				65B70772D0FE89EF21A3810C /* TransferStage.swift */,
 				69382FF4CF70FD56B69B04ED /* TransportParameters.swift */,
@@ -148,6 +221,7 @@
 		E676D67E2B5D8EC1770C950C /* Phone */ = {
 			isa = PBXGroup;
 			children = (
+				9A01CFACB68506BF85A8A592 /* AirProDropPhone.entitlements */,
 				99D82DB8FD0CFA28709C16D2 /* AirProPhoneApp.swift */,
 				42A56F683441F80CF71190C5 /* Assets.xcassets */,
 				FA3D27F76350D927F854E578 /* ContentView.swift */,
@@ -187,10 +261,12 @@
 			buildPhases = (
 				A7C6C73A1DA6AA4560B1EC58 /* Sources */,
 				6311C8786B9375C6D0D3AAF4 /* Resources */,
+				996145DF727A7F56E58C2C71 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				F499324D8C3CD5DF598F423A /* PBXTargetDependency */,
 			);
 			name = AirProDropPhone;
 			packageProductDependencies = (
@@ -198,6 +274,23 @@
 			productName = AirProDropPhone;
 			productReference = 9B8B20BC7821C0EE2F09F544 /* AirProDropPhone.app */;
 			productType = "com.apple.product-type.application";
+		};
+		8CA1E5B93C9153026833BB55 /* AirProDropShare */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6258BD7FB657F3F37243BF3D /* Build configuration list for PBXNativeTarget "AirProDropShare" */;
+			buildPhases = (
+				1662FB57EC59AC7A4080C68F /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AirProDropShare;
+			packageProductDependencies = (
+			);
+			productName = AirProDropShare;
+			productReference = D904DBF0E7F0E644DAB3824A /* AirProDropShare.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -209,11 +302,15 @@
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					66F385EF2F8EBE817053FC6D = {
-						DevelopmentTeam = "";
+						DevelopmentTeam = K8HS5K3B93;
 						ProvisioningStyle = Automatic;
 					};
 					76281FBDA2010BFA7216097A = {
-						DevelopmentTeam = "";
+						DevelopmentTeam = K8HS5K3B93;
+						ProvisioningStyle = Automatic;
+					};
+					8CA1E5B93C9153026833BB55 = {
+						DevelopmentTeam = K8HS5K3B93;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -234,6 +331,7 @@
 			targets = (
 				66F385EF2F8EBE817053FC6D /* AirProDropMac */,
 				76281FBDA2010BFA7216097A /* AirProDropPhone */,
+				8CA1E5B93C9153026833BB55 /* AirProDropShare */,
 			);
 		};
 /* End PBXProject section */
@@ -258,6 +356,32 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		1662FB57EC59AC7A4080C68F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C832D5A75BA1AC2F64BC6F54 /* AirDropGlow.metal in Sources */,
+				D971F5D5F4BF6B93CAF35809 /* AirProService.swift in Sources */,
+				4385D983537A1B4B3EADED0D /* ControlMessage.swift in Sources */,
+				B6D955C89A68577CBBF29418 /* DeviceIdentity.swift in Sources */,
+				5163B1EF0A164B3113B2F4EF /* EdgeGlow.swift in Sources */,
+				69157A2E35968947EF1A7D86 /* FlyingCard.swift in Sources */,
+				B113D955213D3326C88F3E3A /* GlassStyles.swift in Sources */,
+				27200C4C182D0D871FB06C09 /* PeerConnection.swift in Sources */,
+				719CF5C9A127299CF81B9908 /* SecureHandshake.swift in Sources */,
+				0C25FF8BAECD9060525AD7F4 /* SecureStore.swift in Sources */,
+				B8973410F5F4F6789A42FDE0 /* SessionCipher.swift in Sources */,
+				7159DA90BC46CC279988A1CF /* ShareCoordinator.swift in Sources */,
+				8DB0E2C33778C2E0AE48FC6A /* ShareSendView.swift in Sources */,
+				1CF7829CA7524F493DD43483 /* ShareViewController.swift in Sources */,
+				83B35C583B7D7D552DBFCA1A /* SharedContainer.swift in Sources */,
+				27257254223662BA61B4DADF /* ThumbnailRenderer.swift in Sources */,
+				0552FB5C6D3249AEADF42A7D /* TransferStage.swift in Sources */,
+				58AF16B97182F11799A490CA /* TransportParameters.swift in Sources */,
+				4EF40FCB64753B5A63C0C82C /* TrustStore.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3E35CFC4A7F7EE16A1A66EE0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -270,6 +394,7 @@
 				16A2C07F6F9498E0F66DA2EB /* EdgeDropView.swift in Sources */,
 				B97D3CCF22BBA0681E026429 /* EdgeGlow.swift in Sources */,
 				3C7D2A051A205B9CB050C033 /* FlyingCard.swift in Sources */,
+				DB51DF4FAF02F2FF908550D8 /* GlassStyles.swift in Sources */,
 				64CD60FD97DDC4E4D393B9DA /* MacCoordinator.swift in Sources */,
 				ED61A49B1DEB6BF58FC0152E /* MacMenuView.swift in Sources */,
 				DE86E3B94C029F4D09286DD3 /* OverlayWindowController.swift in Sources */,
@@ -279,6 +404,7 @@
 				38977AFD732A6DFD68EF0FB6 /* SecureHandshake.swift in Sources */,
 				D7C5C9C2BB795AE43A4F5C2E /* SecureStore.swift in Sources */,
 				475CC8DA9CF8632853B1D81C /* SessionCipher.swift in Sources */,
+				F6BCF8DC6A18E9E1A20F8D6D /* SharedContainer.swift in Sources */,
 				1AB40F466BAE67F03C957D70 /* ThumbnailRenderer.swift in Sources */,
 				7FFC68AFA98C0B3446385B04 /* TransferStage.swift in Sources */,
 				75D8E3CC076C2FA938177ECD /* TransportParameters.swift in Sources */,
@@ -299,12 +425,14 @@
 				E6DBF4E80939628A8A0D1E3A /* EdgeGlow.swift in Sources */,
 				9FB4485FFFDF30BA35BAC274 /* FileLibrary.swift in Sources */,
 				838E4EC6097A5EE527B2B2D7 /* FlyingCard.swift in Sources */,
+				E5931C856957CE306C3FC152 /* GlassStyles.swift in Sources */,
 				63A211C4C8CC393D843D9B53 /* PairingPanel.swift in Sources */,
 				E142809764750E7994D7AF02 /* PeerConnection.swift in Sources */,
 				F785B2E42CC24582CB63EBE9 /* PhoneCoordinator.swift in Sources */,
 				355FCD0EE90D9882CA36A50E /* SecureHandshake.swift in Sources */,
 				8B2B9B448CC1F216CCDFBB99 /* SecureStore.swift in Sources */,
 				69103E701E81FD67F1B36FF4 /* SessionCipher.swift in Sources */,
+				0A5FD598F31855C0F26E0C9D /* SharedContainer.swift in Sources */,
 				F773354602DBBDB27F6BD6B8 /* SnapshottableContainer.swift in Sources */,
 				B75043371161FF4F0F62927F /* ThumbnailRenderer.swift in Sources */,
 				A5B8B0B5CF646D578F90A46A /* TransferStage.swift in Sources */,
@@ -315,11 +443,20 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		F499324D8C3CD5DF598F423A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8CA1E5B93C9153026833BB55 /* AirProDropShare */;
+			targetProxy = C68B75D99EBFA4D693E6A0D8 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
 		089BB05F9BD0E19D43975229 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Phone/AirProDropPhone.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Phone/Info.plist;
@@ -329,6 +466,24 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.mrhafid.airpro.phone;
 				PRODUCT_NAME = AirProDrop;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		0E11BDADADB586D6DFE1BA6C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = ShareExtension/AirProDropShare.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = ShareExtension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mrhafid.airpro.phone.share;
+				PRODUCT_NAME = AirProDropShare;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -357,6 +512,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Phone/AirProDropPhone.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Phone/Info.plist;
@@ -407,7 +563,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = K8HS5K3B93;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -436,6 +592,24 @@
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
+		};
+		E2577DFBA315798E0D38C90B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = ShareExtension/AirProDropShare.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = ShareExtension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.mrhafid.airpro.phone.share;
+				PRODUCT_NAME = AirProDropShare;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
 		};
 		F19FF788CDCC686682C961AF /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -492,7 +666,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = K8HS5K3B93;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -523,6 +697,15 @@
 			buildConfigurations = (
 				089BB05F9BD0E19D43975229 /* Debug */,
 				7589970D4366BE73C2418FA6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		6258BD7FB657F3F37243BF3D /* Build configuration list for PBXNativeTarget "AirProDropShare" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0E11BDADADB586D6DFE1BA6C /* Debug */,
+				E2577DFBA315798E0D38C90B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
