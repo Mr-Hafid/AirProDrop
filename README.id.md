@@ -6,6 +6,7 @@ Kirim file antara Mac dan iPhone pakai gerakan, mirip AirDrop. Bedanya, file cuk
 
 - Drag file ke tepi layar Mac, file langsung terbang ke iPhone.
 - Tekan lama file di iPhone, lempar ke arah Mac, file langsung terbuka di Mac.
+- Bagikan foto atau file dari app apa pun di iPhone, ketuk **AirProDrop**, lalu file terangkat dari layar dan terbang ke Mac.
 - Tepi layar yang menghadap perangkat lain menyala silver, lalu busur cahaya menyapu kedua layar saat file menyeberang.
 
 Tidak perlu WiFi yang sama. Seperti AirDrop, AirProDrop tersambung langsung antar perangkat lewat WiFi peer-to-peer milik Apple (AWDL). Cukup WiFi dalam keadaan menyala.
@@ -14,8 +15,9 @@ Tidak perlu WiFi yang sama. Seperti AirDrop, AirProDrop tersambung langsung anta
 
 - **Drop di tepi layar Mac:** app menu bar memantau tepi layar yang bersebelahan dengan iPhone. Lepas file di sana untuk mengirim.
 - **Lempar untuk mengirim di iPhone:** tekan lama file, lalu lempar ke arah Mac.
+- **Kirim dari app mana pun:** Share Extension menaruh AirProDrop di lembar Share iOS. Ketuk, file mengambang di atas layar, terbang ke Mac, lalu lembarnya tertutup sendiri. Tanpa ketukan tambahan, dan app AirProDrop tidak perlu dibuka.
 - **Efek visual ala AirDrop:** glow di tepi layar, cahaya di bingkai layar yang menipis dari tengah ke ujung, busur silver yang menyapu layar, dan efek riak yang membengkokkan isi layar iPhone saat gelombang lewat.
-- **Pairing sekali saja:** pilih Mac dari daftar Mac di sekitar, lalu masukkan kode 6 digit yang tampil di Mac, cukup sekali. Setelah itu kedua perangkat saling menemukan dan tersambung otomatis setiap kali app dibuka.
+- **Pairing lewat radar:** iPhone menampilkan radar berdenyut berisi semua Mac di sekitar. Ketuk Mac kamu, kode 6 digit langsung muncul di layar Mac, lalu ketik di iPhone, cukup sekali. Setelah itu kedua perangkat saling menemukan dan tersambung otomatis.
 - **Terenkripsi dengan forward secrecy:** setiap koneksi memakai pertukaran kunci baru, jadi meskipun suatu kunci bocor, transfer sebelumnya tetap tidak bisa dibuka.
 - **Banyak perangkat terpercaya:** bisa mempercayai beberapa iPhone atau Mac, dan melupakan salah satunya kapan saja.
 - **File yang diterima:**
@@ -29,7 +31,8 @@ Tidak perlu WiFi yang sama. Seperti AirDrop, AirProDrop tersambung langsung anta
 | Mac | macOS 14 Sonoma |
 | iPhone | iOS 17 |
 | Xcode | 16 atau lebih baru (dibangun dengan Xcode 26) |
-| Tools | [XcodeGen](https://github.com/yonaskolb/XcodeGen), hanya jika mengubah `project.yml` |
+| Tools | [XcodeGen](https://github.com/yonaskolb/XcodeGen) (`brew install xcodegen`) |
+| Akun Apple Developer | Team berbayar, dibutuhkan untuk App Group yang dipakai bersama oleh app dan Share Extension |
 
 WiFi harus menyala di kedua perangkat. Tidak harus tersambung ke jaringan yang sama.
 
@@ -50,25 +53,44 @@ brew install xcodegen
 xcodegen generate
 ```
 
-### 2. Jalankan app Mac
+### 2. Pakai Team signing sendiri
 
-1. Pilih scheme **AirProDropMac** dan **My Mac**, lalu tekan **⌘R**.
-2. Ikon iPhone muncul di menu bar. App ini tidak punya jendela; semuanya ada di menu bar.
-3. Izinkan akses **Local Network** kalau macOS memintanya.
+`project.yml` memakai Team milik maintainer. Kalau build dengan akun Apple Developer lain, ganti dengan Team ID kamu sebelum build:
 
-### 3. Jalankan app iPhone
+```yaml
+settings:
+  base:
+    DEVELOPMENT_TEAM: TEAM_ID_KAMU
+```
 
-1. Pilih target **AirProDropPhone** → **Signing & Capabilities** → pilih **Team** kamu.
-2. Colokkan iPhone, pilih scheme **AirProDropPhone**, lalu tekan **⌘R**.
-3. Izinkan akses **Local Network** saat iOS memintanya.
+Kalau bundle ID atau App Group (`group.com.mrhafid.airpro`) sudah dipakai orang lain, ganti di `project.yml`, bagian properti `.entitlements`, dan `Shared/SharedContainer.swift`. Setelah itu jalankan `xcodegen generate`.
+
+### 3. Build dan install
+
+Cara paling cepat lewat script build. Script ini meng-generate ulang proyek, memasang app Mac ke `/Applications`, dan meng-install app iPhone ke iPhone yang tercolok ke Mac:
+
+```bash
+./build.sh          # Mac dan iPhone
+./build.sh mac      # hanya Mac → /Applications
+./build.sh phone    # hanya iPhone → iPhone yang tercolok
+./build.sh phone achmad   # pilih iPhone dari sebagian namanya
+```
+
+Sebelum install ke iPhone pertama kali, colok iPhone, ketuk **Trust This Computer**, lalu nyalakan **Settings → Privacy & Security → Developer Mode**.
+
+Bisa juga lewat Xcode: pilih scheme **AirProDropMac** dengan **My Mac**, atau scheme **AirProDropPhone** dengan iPhone kamu, lalu tekan **⌘R**.
+
+Saat pertama dibuka, izinkan akses **Local Network** di kedua perangkat, dan izinkan notifikasi di Mac. App Mac tidak punya jendela; ikon iPhone muncul di menu bar.
 
 ### 4. Pairing (cukup sekali)
 
-1. Klik ikon di menu bar Mac. Saat pertama kali, kode pairing 6 digit langsung tampil; berikutnya klik **Pair New iPhone…** untuk memunculkannya. Setiap kode berlaku 2 menit.
-2. Di iPhone, pilih Mac kamu dari **Nearby Macs**, lalu masukkan kodenya.
-3. Titik status di app iPhone berubah hijau dengan nama Mac kamu. Mulai saat itu, keduanya tersambung otomatis setiap kali app iPhone dibuka.
+1. Buka AirProDrop di iPhone. Radar muncul dan Mac kamu tampil di dalamnya.
+2. Ketuk Mac kamu. Jendela kecil berisi kode 6 digit muncul di bagian atas layar Mac.
+3. Ketik kodenya di iPhone. Titik status berubah hijau dengan nama Mac kamu, dan mulai saat itu keduanya tersambung otomatis.
 
-Setelah 3 kali kode salah, Mac berhenti menerima perangkat baru sampai kamu klik **Pair New iPhone…** lagi.
+Setiap kode berlaku 2 menit. Kalau kode salah, Mac langsung menampilkan kode baru. Setelah 3 kali salah, jendelanya ditutup dan Mac mengabaikan permintaan pairing selama 30 detik. Kode juga tetap bisa dimunculkan manual lewat **Pair New iPhone…** di menu bar.
+
+Radar bisa ditutup dengan **✕** dan dibuka lagi lewat tombol **Nearby Macs** di tengah layar file yang masih kosong.
 
 ### 5. Atur posisi iPhone
 
@@ -87,6 +109,14 @@ Drag file dari Finder sampai ke ujung tepi layar di sisi iPhone. Tepi layar meny
 
 Tambahkan file lewat tombol foto atau **Import from Files**. Tekan lama sebuah file sampai kartunya terangkat, lalu lempar ke arah Mac.
 
+**Dari app mana pun (Photos, Files, Safari, …)**
+
+1. Ketuk **Share**, lalu pilih **AirProDrop** di baris app.
+2. File mengambang di atas layar dan, begitu Mac tersambung, langsung terbang sendiri ke arah Mac. Bisa juga dilempar sendiri.
+3. Lembar Share tertutup setelah file sampai.
+
+Supaya AirProDrop berada tepat di sebelah AirDrop, geser baris app sampai ujung, ketuk **More → Edit**, lalu pindahkan AirProDrop ke paling depan. Bisa mengirim sampai 20 foto, video, atau file sekaligus.
+
 ## Cara kerja
 
 ```
@@ -100,7 +130,8 @@ Tambahkan file lewat tombol foto atau **Import from Files**. Tekan lama sebuah f
 ```
 
 - **Discovery & koneksi:** `Network.framework` dengan Bonjour (`_airpro._tcp`) dan `includePeerToPeer = true`. Opsi ini mengaktifkan AWDL, jalur WiFi peer-to-peer yang sama dengan yang dipakai AirDrop.
-- **Identitas perangkat:** setiap perangkat membuat kunci identitas Ed25519 sendiri saat pertama kali dibuka (di Keychain pada iOS).
+- **Identitas perangkat:** setiap perangkat membuat kunci identitas Ed25519 sendiri saat pertama kali dibuka. Di iOS kunci ini disimpan di Keychain milik App Group, jadi app dan Share Extension-nya memakai identitas yang sama dan Share Extension tidak perlu pairing lagi.
+- **Meminta kode:** mengetuk Mac di radar mengirim permintaan kode singkat. Mac membuka jendela pairing dan menampilkan kodenya, lalu iPhone melakukan pairing lewat koneksi baru dengan kode yang diketik.
 - **Pairing:** kedua perangkat bertukar kunci X25519 sementara, lalu kode 6 digit dicocokkan per bit dengan sistem komitmen (ide yang sama dengan pairing Bluetooth berkode). Penyusup hanya punya satu kali tebakan dengan peluang satu banding sejuta dan tidak bisa mencoba-coba kode secara offline. Setelah kode cocok, masing-masing menyimpan kunci identitas perangkat lain sebagai perangkat terpercaya.
 - **Reconnect:** setiap koneksi menjalankan pertukaran kunci X25519 baru yang ditandatangani kunci identitas kedua perangkat. Perangkat yang menyamar sebagai Mac atau iPhone kamu akan ditolak, dan setiap sesi punya kunci sendiri (forward secrecy).
 - **Enkripsi:** setiap frame dienkripsi dengan ChaCha20-Poly1305 lewat CryptoKit.
@@ -125,8 +156,12 @@ Shared/                        Kode yang dipakai kedua app
   AirDropGlow.metal            Shader glow, cahaya bingkai, busur, dan riak
   FlyingCard.swift             View kartu thumbnail
   ThumbnailRenderer.swift      Thumbnail Quick Look dan encoding
-Mac/                           App menu bar, jendela overlay, target drop di tepi layar
-Phone/                         App iPhone, library file, UI pairing, container snapshot
+  SharedContainer.swift        Penyimpanan App Group yang dipakai app iPhone dan extension-nya
+  GlassStyles.swift            Gaya panel Liquid Glass dan transisi panel (iOS)
+Mac/                           App menu bar, jendela overlay, target drop di tepi layar, jendela kode pairing
+Phone/                         App iPhone, library file, UI pairing radar, container snapshot
+ShareExtension/                Extension lembar Share untuk mengirim file langsung ke Mac
+build.sh                       Build dan install app Mac dan iPhone
 ```
 
 ## Keterbatasan
@@ -135,8 +170,10 @@ Phone/                         App iPhone, library file, UI pairing, container s
 - **Strip drop di Mac hanya selebar 4 px.** Kalau monitor eksternal diletakkan di sisi yang sama dengan iPhone, kursor akan pindah ke monitor itu, bukan berhenti di tepi layar.
 - **Di Mac hanya file dari Finder yang diterima.** Drag langsung dari app Photos atau browser (file promise) belum didukung.
 - **Desktop Mac tidak ikut beriak.** Membengkokkan jendela app lain butuh izin Screen Recording, jadi di Mac hanya glow dan busur yang tampil tanpa mendistorsi isi di belakangnya.
+- **Lembar Share harus tetap terbuka sampai file sampai.** iOS menghentikan Share Extension begitu ditutup, jadi AirProDrop baru menutupnya setelah transfer selesai. Untuk foto lewat AWDL, ini hanya butuh satu atau dua detik.
+- **Tampilan Share yang transparan memakai perilaku yang tidak didokumentasikan Apple.** Berjalan di iOS 26, tapi versi iOS berikutnya bisa saja menampilkan lembar biasa. Pengiriman tetap jalan di kedua kondisi.
 - **Satu koneksi aktif per Mac.** Beberapa iPhone bisa dipercaya, tapi Mac hanya tersambung ke iPhone yang terakhir terhubung.
-- **Di Mac, kunci disimpan di UserDefaults** karena build development di-sign ad hoc. Memindahkannya ke Keychain butuh Team signing yang proper.
+- **App Mac di-sign ad hoc.** Kuncinya disimpan di UserDefaults, macOS bisa meminta izin notifikasi lagi setelah build ulang, dan Mac lain akan menampilkan peringatan "developer tidak terverifikasi". Sign dengan sertifikat Developer ID lalu notarisasi akan menyelesaikan ketiganya.
 
 ## Lisensi
 

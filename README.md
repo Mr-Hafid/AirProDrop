@@ -6,6 +6,7 @@ Gesture-driven file transfer between a Mac and an iPhone — like AirDrop, but y
 
 - Drag a file to the edge of your Mac's screen and it flies onto your iPhone.
 - Touch and hold a file on your iPhone, flick it toward your Mac, and it opens on the Mac.
+- Share a photo or file from any iPhone app, tap **AirProDrop**, and it lifts off the screen and flies to your Mac.
 - A silver glow lights up the screen edge facing the other device, and a light arc sweeps across both screens as the file crosses over.
 
 No shared Wi-Fi network is needed. Like AirDrop, AirProDrop talks directly between devices over Apple's peer-to-peer Wi-Fi (AWDL) — Wi-Fi just has to be turned on.
@@ -14,8 +15,9 @@ No shared Wi-Fi network is needed. Like AirDrop, AirProDrop talks directly betwe
 
 - **Edge drop on Mac** — a menu bar app watches the screen edge next to your iPhone. Drop a file there to send it.
 - **Flick to send on iPhone** — long-press a file, then flick it toward the Mac.
+- **Send from any app** — a Share Extension puts AirProDrop in the iOS share sheet. Tap it and the file floats over the screen, flies to the Mac and the sheet closes on its own. No extra taps, and the AirProDrop app doesn't have to be open.
 - **AirDrop-style visuals** — edge glow, screen-border light that tapers from the center outward, a sweeping silver arc, and a ripple that bends the iPhone's content as the wave passes.
-- **One-time pairing** — pick your Mac from the list of nearby Macs and enter the 6-digit code it shows, once. After that the devices find and reconnect to each other automatically whenever the app is open.
+- **Radar pairing** — the iPhone shows a pulsing radar with every nearby Mac. Tap your Mac and it pops up a 6-digit code on its screen; type it on the iPhone, once. After that the devices find and reconnect to each other automatically.
 - **Encrypted, with forward secrecy** — every connection uses a fresh key exchange, so even a leaked key can't decrypt earlier transfers.
 - **Multiple trusted devices** — trust several iPhones or Macs and forget any of them at any time.
 - **Received files**
@@ -29,7 +31,8 @@ No shared Wi-Fi network is needed. Like AirDrop, AirProDrop talks directly betwe
 | Mac | macOS 14 Sonoma |
 | iPhone | iOS 17 |
 | Xcode | 16 or later (built with Xcode 26) |
-| Tools | [XcodeGen](https://github.com/yonaskolb/XcodeGen) — only if you change `project.yml` |
+| Tools | [XcodeGen](https://github.com/yonaskolb/XcodeGen) (`brew install xcodegen`) |
+| Apple Developer account | A paid team is needed for the App Group shared between the app and its Share Extension |
 
 Both devices need Wi-Fi turned on. They do not need to be on the same network.
 
@@ -50,25 +53,44 @@ brew install xcodegen
 xcodegen generate
 ```
 
-### 2. Run the Mac app
+### 2. Use your own signing team
 
-1. Select the **AirProDropMac** scheme and **My Mac**, then press **⌘R**.
-2. An iPhone icon appears in the menu bar. There is no window; the app lives there.
-3. Allow **Local Network** access if macOS asks.
+`project.yml` is set up with the maintainer's team. If you build with a different Apple Developer account, change it to your own Team ID before building:
 
-### 3. Run the iPhone app
+```yaml
+settings:
+  base:
+    DEVELOPMENT_TEAM: YOUR_TEAM_ID
+```
 
-1. Select the **AirProDropPhone** target → **Signing & Capabilities** → choose your **Team**.
-2. Connect your iPhone, select the **AirProDropPhone** scheme, and press **⌘R**.
-3. Allow **Local Network** access when iOS asks.
+If the bundle IDs or the App Group (`group.com.mrhafid.airpro`) are already taken, change them in `project.yml`, the `.entitlements` properties and `Shared/SharedContainer.swift`. Then run `xcodegen generate`.
+
+### 3. Build and install
+
+The quickest way is the build script. It regenerates the project, installs the Mac app to `/Applications` and installs the iPhone app on the iPhone plugged into your Mac:
+
+```bash
+./build.sh          # Mac and iPhone
+./build.sh mac      # Mac only → /Applications
+./build.sh phone    # iPhone only → the connected iPhone
+./build.sh phone achmad   # pick an iPhone by part of its name
+```
+
+Before the first iPhone install, plug the iPhone in, tap **Trust This Computer** and turn on **Settings → Privacy & Security → Developer Mode**.
+
+You can also build from Xcode: pick the **AirProDropMac** scheme with **My Mac**, or the **AirProDropPhone** scheme with your iPhone, and press **⌘R**.
+
+On first launch, allow **Local Network** access on both devices, and allow notifications on the Mac. The Mac app has no window; an iPhone icon appears in the menu bar.
 
 ### 4. Pair once
 
-1. Click the menu bar icon on your Mac. The first time, a 6-digit pairing code is already shown; later, click **Pair New iPhone…** to show one. Each code is valid for 2 minutes.
-2. On your iPhone, choose your Mac from **Nearby Macs** and enter the code.
-3. The status dot in the iPhone app turns green with your Mac's name. From now on they reconnect automatically whenever the iPhone app is open.
+1. Open AirProDrop on the iPhone. A radar appears and your Mac shows up on it.
+2. Tap your Mac. A small window with a 6-digit code pops up at the top of the Mac's screen.
+3. Type the code on the iPhone. The status dot turns green with your Mac's name, and from now on they reconnect automatically.
 
-After 3 wrong codes the Mac stops accepting new devices until you click **Pair New iPhone…** again.
+A code is valid for 2 minutes. After a wrong code the Mac shows a new one; after 3 wrong codes it closes the window and ignores pairing requests for 30 seconds. You can still show a code by hand with **Pair New iPhone…** in the menu bar.
+
+Close the radar with **✕** and bring it back with **Nearby Macs** in the middle of the empty file screen.
 
 ### 5. Tell AirProDrop where your iPhone sits
 
@@ -87,6 +109,14 @@ Drag a file from Finder to the very edge of the screen on the iPhone's side. The
 
 Add files with the photo button or **Import from Files**, then touch and hold a file until it lifts and flick it toward the Mac.
 
+**From any app (Photos, Files, Safari, …)**
+
+1. Tap **Share** and choose **AirProDrop** in the app row.
+2. The file floats over the screen and, as soon as the Mac is connected, flies toward it on its own. You can also flick it yourself.
+3. The sheet closes when the file has arrived.
+
+To keep AirProDrop right next to AirDrop, scroll the app row to the end, tap **More → Edit** and move AirProDrop to the front. Up to 20 photos, videos or files can be sent at once.
+
 ## How it works
 
 ```
@@ -100,7 +130,8 @@ Add files with the photo button or **Import from Files**, then touch and hold a 
 ```
 
 - **Discovery & transport:** `Network.framework` with Bonjour (`_airpro._tcp`) and `includePeerToPeer = true`, which enables AWDL — the same peer-to-peer Wi-Fi link AirDrop uses.
-- **Device identity:** each device creates its own Ed25519 identity key on first launch (Keychain on iOS).
+- **Device identity:** each device creates its own Ed25519 identity key on first launch. On iOS it is kept in the Keychain under the App Group, so the app and its Share Extension present the same identity and the Share Extension never needs to pair.
+- **Requesting a code:** tapping a Mac on the radar sends a short code request. The Mac opens its pairing window and shows the code, then the iPhone pairs on a new connection with the code you typed.
 - **Pairing:** the devices exchange ephemeral X25519 keys, then check the 6-digit code bit by bit with commitments (the same idea as Bluetooth passkey pairing). Someone in the middle gets a single guess with a one-in-a-million chance and can't brute-force the code offline. Once the code matches, each device stores the other's identity key as trusted.
 - **Reconnecting:** every connection runs a fresh X25519 key exchange signed with both identity keys, so a device pretending to be your Mac or iPhone is rejected, and each session has its own keys (forward secrecy).
 - **Encryption:** frames are sealed with ChaCha20-Poly1305 using CryptoKit.
@@ -125,8 +156,12 @@ Shared/                        Code used by both apps
   AirDropGlow.metal            Glow, border light, sweeping arc and ripple shaders
   FlyingCard.swift             Thumbnail card views
   ThumbnailRenderer.swift      Quick Look thumbnails and encoding
-Mac/                           Menu bar app, overlay window, edge drop target
-Phone/                         iPhone app, file library, pairing UI, snapshot container
+  SharedContainer.swift        App Group storage shared by the iPhone app and its extension
+  GlassStyles.swift            Liquid Glass panel styles and panel transition (iOS)
+Mac/                           Menu bar app, overlay window, edge drop target, pairing code window
+Phone/                         iPhone app, file library, radar pairing UI, snapshot container
+ShareExtension/                Share sheet extension that sends files straight to the Mac
+build.sh                       Builds and installs the Mac and iPhone apps
 ```
 
 ## Limitations
@@ -135,8 +170,10 @@ Phone/                         iPhone app, file library, pairing UI, snapshot co
 - **The drop strip on the Mac is 4 px wide.** If an external display is arranged on the same side as the iPhone, the cursor passes onto that display instead of stopping at the edge.
 - **Only Finder files are accepted on the Mac.** Dragging straight out of Photos or a browser (file promises) isn't supported yet.
 - **The Mac desktop doesn't ripple.** Distorting other apps' windows would need Screen Recording permission, so the Mac shows the glow and arc without bending what's behind them.
+- **The share sheet has to stay open until the file arrives.** iOS stops a Share Extension as soon as it closes, so AirProDrop only closes it after the transfer is done. For photos over AWDL this takes a second or two.
+- **The transparent share overlay relies on undocumented behavior.** It works on iOS 26, but a future iOS may show a plain sheet instead. Sending still works either way.
 - **One active connection per Mac.** Several iPhones can be trusted, but the Mac talks to the most recently connected one at a time.
-- **On the Mac, keys are stored in UserDefaults** because the development build is signed ad hoc. Moving them to the Keychain needs a proper signing team.
+- **The Mac app is signed ad hoc.** Its keys are kept in UserDefaults, macOS may ask for notification permission again after a rebuild, and other Macs show an "unverified developer" warning. Signing with a Developer ID certificate and notarizing would fix all three.
 
 ## License
 
