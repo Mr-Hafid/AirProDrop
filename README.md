@@ -177,4 +177,10 @@ build.sh                       Builds and installs the Mac and iPhone apps
 
 ## License
 
-No license has been chosen yet. All rights reserved until one is added.
+Copyright (C) 2026 Achmad Hafid Supriyadi (Mr Hafid)
+
+AirProDrop is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+AirProDrop is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the [LICENSE](LICENSE) file for the full text.
+
+If you distribute a modified version, you must release its source code under the same license.

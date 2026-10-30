@@ -177,4 +177,10 @@ build.sh                       Build dan install app Mac dan iPhone
 
 ## Lisensi
 
-Belum ada lisensi. Semua hak dilindungi sampai lisensi ditambahkan.
+Copyright (C) 2026 Achmad Hafid Supriyadi (Mr Hafid)
+
+AirProDrop adalah perangkat lunak bebas: kamu boleh mendistribusikan ulang dan/atau mengubahnya sesuai ketentuan GNU General Public License yang diterbitkan Free Software Foundation, baik versi 3 maupun (sesuai pilihanmu) versi yang lebih baru.
+
+AirProDrop didistribusikan dengan harapan bermanfaat, tetapi TANPA JAMINAN APA PUN, termasuk jaminan tersirat atas KELAYAKAN UNTUK DIPERDAGANGKAN atau KESESUAIAN UNTUK TUJUAN TERTENTU. Teks lengkapnya ada di file [LICENSE](LICENSE) (berbahasa Inggris, dan hanya versi itu yang berlaku secara hukum).
+
+Kalau kamu mendistribusikan versi yang sudah diubah, source code-nya wajib dibuka dengan lisensi yang sama.
